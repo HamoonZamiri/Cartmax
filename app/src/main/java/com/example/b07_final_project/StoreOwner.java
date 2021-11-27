@@ -6,6 +6,9 @@ public class StoreOwner extends User {
     private ArrayList<Item> products;
     private ArrayList<ArrayList<Item>> orders;
 
+    public StoreOwner() {
+    }
+
     public StoreOwner(String username, String password, String name) {
         super(username,password,name);
         products = new ArrayList<Item>();
