@@ -3,18 +3,17 @@ package com.example.b07_final_project;
 import java.util.ArrayList;
 
 public class Customer extends User {
-    private ArrayList<Item> order;
+    private ArrayList<Order> orders;
 
-    public Customer(String username, String password, String name) {
-        super(username,password,name);
-        order = new ArrayList<Item>();
+    public Customer() {
     }
 
-    public void addItem(Item i) {
-        order.add(i);
+    public Customer(String email, String password, String name) {
+        super(email,password,name);
+        orders = new ArrayList<Order>();
     }
 
-    public ArrayList<Item> getOrder() {
-        return order;
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
 }
