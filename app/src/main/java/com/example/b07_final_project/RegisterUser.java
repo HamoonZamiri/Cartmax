@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
 
+    public static boolean ownerTrack = false;
     private TextView registerUser;
     private FirebaseAuth mAuth;
     private EditText editTextName, editTextEmail, editTextPassword;
@@ -42,13 +44,18 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.registerUser:
-                registerUser();
+            case R.id.isOwner:
+                CheckBox c = (CheckBox)v;
+                ownerTrack = c.isChecked();
                 break;
+            case R.id.registerUser:
+                registerUser(ownerTrack);
+                break;
+
         }
     }
 
-    private void registerUser() {
+    private void registerUser(boolean isOwner) {
         String email = editTextEmail.getText().toString().trim();
         String fullName = editTextName.getText().toString().trim();
         String password = editTextPassword.getText().toString();
@@ -87,23 +94,44 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             User user = new User(email, password, fullName);
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(RegisterUser.this,
-                                                "User has been registered successfully",
-                                                Toast.LENGTH_LONG).show();
+
+                            if (!isOwner){
+                                FirebaseDatabase.getInstance().getReference("Users/Customers")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(RegisterUser.this,
+                                                    "Customer has been registered successfully",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(RegisterUser.this,
+                                                    "Failed to register new user",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                    else{
-                                        Toast.makeText(RegisterUser.this,
-                                                "Failed to register new user",
-                                                Toast.LENGTH_LONG).show();
+                            });}
+                            else {
+
+                                FirebaseDatabase.getInstance().getReference("Users/Owners")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(RegisterUser.this,
+                                                    "Owner has been registered successfully",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(RegisterUser.this,
+                                                    "Failed to register new user",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });}
                         }
                         else{
                             Toast.makeText(RegisterUser.this,
@@ -113,5 +141,10 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
+    }
+
+    public void onOwnerClicked(View view) {
+        // Is the view now checked?
+        ownerTrack = ((CheckBox) view).isChecked();
     }
 }
