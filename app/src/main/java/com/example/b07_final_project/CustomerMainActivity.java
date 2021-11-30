@@ -18,11 +18,18 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         TextView name = (TextView) findViewById(R.id.customerName);
         Customer c = new Customer("lol@gmail.com", "kek", "LMAO"); //placeholder
         name.setText(c.getName());
+
+        Button logout = (Button) findViewById(R.id.logout);
+        logout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.logout:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
 
         }
     }
