@@ -35,6 +35,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="300dp"
             android:text="Logout" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Owner Main" />
     </LinearLayout>
 
     <TextView
