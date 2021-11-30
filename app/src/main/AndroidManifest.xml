@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B07_final_project">
         <activity
+            android:name=".OwnerMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyOrdersActivity"
             android:exported="false" />
         <activity
