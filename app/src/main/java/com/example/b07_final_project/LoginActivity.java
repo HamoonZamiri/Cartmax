@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,6 +30,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextEmail, editTextPassword;
     private Button signIn;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    boolean isCustomer = false;
+    boolean isOwner = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,61 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //redirect to users account
                     //startActivity(new Intent()).... depending on what page i wanna go to
 
+
+                    //CUSTOMER REALTIME CHECK
+                    mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
+                    mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if(!task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this,
+                                        "DB Error",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                for(DataSnapshot cust: task.getResult().getChildren()){
+                                    if(cust.child("email").getValue(String.class).equals(email)){
+                                        Log.i("If customer", "works");
+                                        Toast.makeText(LoginActivity.this,
+                                                "User is a customer",
+                                                Toast.LENGTH_LONG).show();
+                                        //start customer activity
+                                    }
+                                }
+                            }
+
+                        }
+                    });
+
+                    ////////////////////////////////////////////////////////////////////////////////
+
+                    //OWNER REALTIME CHECK
+                    mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
+                    mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if(!task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this,
+                                        "DB Error",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                for(DataSnapshot owner: task.getResult().getChildren()){
+                                    if(owner.child("email").getValue(String.class).equals(email)){
+                                        Toast.makeText(LoginActivity.this,
+                                                "User is a owner",
+                                                Toast.LENGTH_LONG).show();
+                                        //start owner activity
+                                    }
+                                }
+                            }
+
+                        }
+                    });
+                    ////////////////////////////////////////////////////////////////////////////////
+
                 }
                 else{
                     Toast.makeText(LoginActivity.this,
@@ -95,5 +160,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    public boolean isCustomerAccount(String email){
+        String test_email = "cust@mail.com";
+        isCustomer = false;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
+        mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this,
+                            "DB Error",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    for(DataSnapshot cust: task.getResult().getChildren()){
+                        if(cust.child("email").getValue(String.class).equals(test_email)){
+                            Log.i("If customer", "works");
+                            Toast.makeText(LoginActivity.this,
+                                    "User is a customer",
+                                    Toast.LENGTH_LONG).show();
+                            isCustomer = true;
+                        }
+                    }
+                }
+
+            }
+        });
+        Log.i("isCustomer", "" + isCustomer);
+        return isCustomer;
+    }
+
+    public boolean isOwnerAccount(String email){
+        isOwner = false;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
+        mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this,
+                            "DB Error",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    for(DataSnapshot owner: task.getResult().getChildren()){
+                        if(owner.child("email").getValue(String.class).equals(email)){
+                            Toast.makeText(LoginActivity.this,
+                                    "User is an owner",
+                                    Toast.LENGTH_LONG).show();
+                            isOwner = true;
+                        }
+                    }
+                }
+
+            }
+        });
+
+        return isOwner;
     }
 }
