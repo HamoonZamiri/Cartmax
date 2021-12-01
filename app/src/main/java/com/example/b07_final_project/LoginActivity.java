@@ -174,65 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public boolean isCustomerAccount(String email){
-        String test_email = "cust@mail.com";
-        isCustomer = false;
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
-        mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,
-                            "DB Error",
-                            Toast.LENGTH_LONG).show();
-                }
-                else{
-                    for(DataSnapshot cust: task.getResult().getChildren()){
-                        if(cust.child("email").getValue(String.class).equals(test_email)){
-                            Log.i("If customer", "works");
-                            Toast.makeText(LoginActivity.this,
-                                    "User is a customer",
-                                    Toast.LENGTH_LONG).show();
-                            isCustomer = true;
-                        }
-                    }
-                }
-
-            }
-        });
-        Log.i("isCustomer", "" + isCustomer);
-        return isCustomer;
-    }
-
-    public boolean isOwnerAccount(String email){
-        isOwner = false;
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
-        mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,
-                            "DB Error",
-                            Toast.LENGTH_LONG).show();
-                }
-                else{
-                    for(DataSnapshot owner: task.getResult().getChildren()){
-                        if(owner.child("email").getValue(String.class).equals(email)){
-                            Toast.makeText(LoginActivity.this,
-                                    "User is an owner",
-                                    Toast.LENGTH_LONG).show();
-                            isOwner = true;
-                        }
-                    }
-                }
-
-            }
-        });
-
-        return isOwner;
+    @Override
+    public void onBackPressed() {
     }
 }

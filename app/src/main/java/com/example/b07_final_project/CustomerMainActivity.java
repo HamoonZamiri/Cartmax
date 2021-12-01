@@ -11,15 +11,23 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CustomerMainActivity extends AppCompatActivity implements View.OnClickListener {
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
-        TextView name = (TextView) findViewById(R.id.customerName);
-        Customer c = new Customer("lol@gmail.com", "kek", "USER"); //placeholder
-        name.setText(c.getName());
+        email = "";
+        String name = "";
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            email = extras.getString("email");
+            name = extras.getString("name");
+        }
+
+        TextView nameText = (TextView) findViewById(R.id.customerName);
+        nameText.setText(name);
 
         Button newOrder = (Button) findViewById(R.id.newOrder);
         newOrder.setOnClickListener(this);
@@ -42,7 +50,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.myOrders:
                 Intent i = new Intent(this, MyOrdersActivity.class);
-                i.putExtra("email","xyz@gmail.com");
+                i.putExtra("email",email);
                 startActivity(i);
                 break;
         }
