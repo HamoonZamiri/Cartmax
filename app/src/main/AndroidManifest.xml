@@ -11,7 +11,8 @@
         android:theme="@style/Theme.B07_final_project">
         <activity
             android:name=".MyOrdersActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".CustomerMainActivity"/>
         <activity
             android:name=".CustomerMainActivity"
             android:exported="false" />

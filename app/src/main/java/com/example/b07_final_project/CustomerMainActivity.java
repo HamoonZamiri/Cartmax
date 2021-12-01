@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class CustomerMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -16,7 +18,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_customer_main);
 
         TextView name = (TextView) findViewById(R.id.customerName);
-        Customer c = new Customer("lol@gmail.com", "kek", "LMAO"); //placeholder
+        Customer c = new Customer("lol@gmail.com", "kek", "USER"); //placeholder
         name.setText(c.getName());
 
         Button newOrder = (Button) findViewById(R.id.newOrder);
@@ -39,7 +41,9 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.myOrders:
-                startActivity(new Intent(this, MyOrdersActivity.class));
+                Intent i = new Intent(this, MyOrdersActivity.class);
+                i.putExtra("email","xyz@gmail.com");
+                startActivity(i);
                 break;
         }
     }
