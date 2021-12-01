@@ -17,10 +17,10 @@
         app:layout_constraintTop_toBottomOf="@+id/customerName">
 
         <Button
-            android:id="@+id/newOrder"
+            android:id="@+id/myStore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Order" />
+            android:text="@string/myStore" />
 
         <Button
             android:id="@+id/myOrders"

@@ -22,6 +22,9 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(this);
 
+        Button myStore = (Button) findViewById(R.id.myStore);
+        myStore.setOnClickListener(this);
+
     }
 
     @Override
@@ -31,7 +34,8 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
             case R.id.logout:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-
+            case R.id.myStore:
+                startActivity(new Intent(this, OwnerListItemsActivity.class));
         }
     }
 
