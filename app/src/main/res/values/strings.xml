@@ -5,4 +5,6 @@
     <string name="cart_delete_item">Remove from cart</string>
     <string name="increase">+</string>
     <string name="decrease">-</string>
+    <string name="order_total">Order Total:</string>
+    <string name="checkout_button">Place Order</string>
 </resources>

@@ -6,42 +6,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart extends AppCompatActivity {
 
-    private RecyclerView cartRecyclerView;
+    private RecyclerViewManager cartRecyclerViewManager;
     private User user; // activity needs to be given a user
-    private List<CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart);
 
-        cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
         user = new User("email.com", "hunter2", "user1");
-        if (user != null) {
-            Database userDatabase = new Database(user);
-            cartItems = userDatabase.getCartItems();
-            Log.i("in here", "doing stuff");
+
+        RecyclerView view = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        cartRecyclerViewManager = new RecyclerViewManager(view, user, this);
+        view.setLayoutManager(new LinearLayoutManager(this));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdate();
+            }
+        });
+        Double orderTotal = 0.0;
+        for (CartItem item : cartRecyclerViewManager.getData()) {
+            orderTotal += item.getPrice() * (double) item.count;
         }
-        List<CartItem> cartItems = new ArrayList<>();
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
-        cartItems.add(new CartItem("Milk 4L", "Dairy Place", 4.69, "milk_4l", 1));
+        TextView orderTotalTextView = (TextView) findViewById(R.id.orderTotalValue);
+        orderTotalTextView.setText(orderTotal.toString());
+    }
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(cartItems);
-        cartRecyclerView.setAdapter(adapter);
-
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+    protected void onUpdate(){
+        TextView orderTotalTextView = (TextView) findViewById(R.id.orderTotalValue);
+        Double orderTotal = 0.0;
+        for (CartItem item : cartRecyclerViewManager.getData()) {
+            orderTotal += item.getPrice() * (double) item.count;
+        }
+        orderTotalTextView.setText(orderTotal.toString());
     }
 }
