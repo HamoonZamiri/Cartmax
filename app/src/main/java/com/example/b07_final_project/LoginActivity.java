@@ -10,7 +10,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     boolean isCustomer = false;
     boolean isOwner = false;
 
+    private Button login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = (EditText) findViewById(R.id.password);
 
         mAuth = FirebaseAuth.getInstance();
+        login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(this);
     }
 
     @Override
@@ -117,6 +123,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 "User is a customer",
                                                 Toast.LENGTH_LONG).show();
                                         //start customer activity
+                                        String name = cust.child("name").getValue(String.class);
+                                        Intent customerIntent = new Intent(LoginActivity.this, CustomerMainActivity.class);
+                                        customerIntent.putExtra("email", email);
+                                        customerIntent.putExtra("name", name);
+                                        startActivity(customerIntent);
+
                                     }
                                 }
                             }

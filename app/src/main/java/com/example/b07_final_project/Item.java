@@ -5,6 +5,9 @@ public class Item {
     private String brand;
     private int price;
 
+    public Item() {
+    }
+
     public Item(String name, String brand, int price) {
         this.name = name;
         this.brand = brand;
@@ -38,4 +41,8 @@ public class Item {
         return name.hashCode() + brand.hashCode() + price;
     }
 
+    @Override
+    public String toString() {
+        return name + "[" + brand + "]: $" + price;
+    }
 }

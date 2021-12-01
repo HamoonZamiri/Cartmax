@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 public class StoreOwner extends User {
     private ArrayList<Item> products;
-    private ArrayList<ArrayList<Item>> orders;
+    private ArrayList<Order> orders;
 
-    public StoreOwner(String username, String password, String name) {
-        super(username,password,name);
-        products = new ArrayList<Item>();
-        orders = new ArrayList<ArrayList<Item>>();
+    public StoreOwner() {
     }
 
-    public ArrayList<ArrayList<Item>> getOrders() {
+    public StoreOwner(String email, String password, String name) {
+        super(email,password,name);
+        products = new ArrayList<Item>();
+        orders = new ArrayList<Order>();
+    }
+
+    public ArrayList<Order> getOrders() {
         return orders;
     }
 
