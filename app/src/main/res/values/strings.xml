@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">b07_final_project</string>
+    <string name="cart_title">Cart</string>
+    <string name="milk_4l">Milk 4L</string>
+    <string name="cart_delete_item">Remove from cart</string>
+    <string name="increase">+</string>
+    <string name="decrease">-</string>
 </resources>

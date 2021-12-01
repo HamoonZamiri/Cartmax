@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:paddingTop="8dp"
+    tools:context=".ShoppingCartEntry">
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/milk_4l"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/productImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/milk_4l" />
+
+    <Button
+        android:id="@+id/removeFromCartButton"
+        android:layout_width="117dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="Button"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/productImage"
+        app:layout_constraintTop_toBottomOf="@+id/productName"
+        tools:text="@string/cart_delete_item" />
+
+    <TextView
+        android:id="@+id/productTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="18dp"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/productName"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/productName" />
+
+    <EditText
+        android:id="@+id/productCount"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/increase"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/decrease"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productCount" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
