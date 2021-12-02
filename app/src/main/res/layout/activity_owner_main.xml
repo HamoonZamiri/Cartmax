@@ -23,10 +23,10 @@
             android:text="@string/myStore" />
 
         <Button
-            android:id="@+id/myOrders"
+            android:id="@+id/button_store_orders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Orders" />
+            android:text="Store Orders" />
 
 
         <Button
