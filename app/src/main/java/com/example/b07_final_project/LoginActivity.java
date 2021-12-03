@@ -1,166 +1,124 @@
 package com.example.b07_final_project;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Contract.View {
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private TextView register;
     private EditText editTextEmail, editTextPassword;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private Button login;
+
+    private Contract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView register = (TextView) findViewById(R.id.register);
+        register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
-        Button signIn = (Button) findViewById(R.id.login);
-        signIn.setOnClickListener(this);
+        login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(this);
 
-        editTextEmail = (EditText) findViewById(R.id.emailAddress);
-        editTextPassword = (EditText) findViewById(R.id.password);
+        presenter = new LoginPresenter(new LoginModel(), this);
 
-        mAuth = FirebaseAuth.getInstance();
-
+        SharedPreferences preferences = getSharedPreferences("user_info", 0);
+        preferences.edit().clear().apply();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.register:
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
             case R.id.login:
-                userLogin();
+                presenter.login();
                 break;
 
         }
     }
 
-    private void userLogin() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-
-        if (email.isEmpty()) {
-            editTextEmail.setError("Email is required");
-            editTextEmail.requestFocus();
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Enter a valid email");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            editTextPassword.setError("Password is required");
-            editTextPassword.requestFocus();
-            return;
-        }
-        if (password.length() < 6) {
-            editTextPassword.setError("Password needs to be 6 or more characters long");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    //redirect to users account
-                    //startActivity(new Intent()).... depending on what page i wanna go to
-
-
-                    //CUSTOMER REALTIME CHECK
-                    mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
-                    mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this,
-                                        "DB Error",
-                                        Toast.LENGTH_LONG).show();
-                            } else {
-                                for (DataSnapshot cust : task.getResult().getChildren()) {
-                                    if (cust.child("email").getValue(String.class).equals(email)) {
-                                        Log.i("If customer", "works");
-                                        Toast.makeText(LoginActivity.this,
-                                                "User is a customer",
-                                                Toast.LENGTH_LONG).show();
-                                        //start customer activity
-                                        String name = cust.child("name").getValue(String.class);
-                                        Intent customerIntent = new Intent(LoginActivity.this, CustomerMainActivity.class);
-                                        customerIntent.putExtra("email", email);
-                                        customerIntent.putExtra("name", name);
-                                        startActivity(customerIntent);
-
-                                    }
-                                }
-                            }
-
-                        }
-                    });
-
-                    ////////////////////////////////////////////////////////////////////////////////
-
-                    //OWNER REALTIME CHECK
-                    mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
-                    mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this,
-                                        "DB Error",
-                                        Toast.LENGTH_LONG).show();
-                            } else {
-                                for (DataSnapshot owner : Objects.requireNonNull(task.getResult()).getChildren()) {
-                                    if (owner.child("email").getValue(String.class).equals(email)) {
-                                        Toast.makeText(LoginActivity.this,
-                                                "User is a owner",
-                                                Toast.LENGTH_LONG).show();
-                                        //start owner activity
-                                    }
-                                }
-                            }
-
-                        }
-                    });
-                    ////////////////////////////////////////////////////////////////////////////////
-
-                } else {
-                    Toast.makeText(LoginActivity.this,
-                            "Login Failed, Please check Email/Password",
-                            Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
+    @Override
+    public String getEmail() {
+        editTextEmail = (EditText) findViewById(R.id.emailAddress);
+        return editTextEmail.getText().toString().trim();
     }
 
+    @Override
+    public String getPassword() {
+        editTextPassword = (EditText) findViewById(R.id.password);
+        return editTextPassword.getText().toString().trim();
+    }
 
+    @Override
+    public void handleError(String error, boolean emailError) {
+        if(emailError) {
+            editTextEmail.setError(error);
+            editTextEmail.requestFocus();
+        }
+        else {
+            editTextPassword.setError(error);
+            editTextPassword.requestFocus();
+        }
+    }
+
+    @Override
+    public void success(boolean isCustomer) {
+        SharedPreferences p = getSharedPreferences("user_info", 0);
+        String email = p.getString("email", "");
+        String name = p.getString("name", "");
+        Intent i;
+        if(isCustomer) {
+            Toast.makeText(LoginActivity.this,
+                    "User is a customer",
+                    Toast.LENGTH_LONG).show();
+            i = new Intent(LoginActivity.this, CustomerMainActivity.class);
+            i.putExtra("email", email);
+            i.putExtra("name", name);
+            startActivity(i);
+        }
+        else {
+            Toast.makeText(LoginActivity.this,
+                    "User is an owner",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void failure() {
+        Toast.makeText(LoginActivity.this,
+                "Login Failed, Please check Email/Password",
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
