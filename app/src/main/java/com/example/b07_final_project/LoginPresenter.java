@@ -22,9 +22,18 @@ public class LoginPresenter implements Contract.Presenter {
             view.handleError(pwError, false);
         }
         else {
-            model.custLogin(view, email, password);
-            model.storeLogin(view, email, password);
+            model.custLogin(view,this, email, password);
+            model.storeLogin(view, this, email, password);
         }
     }
 
+    @Override
+    public void determiner(boolean result, boolean isCust) {
+        if(result) {
+            view.success(isCust);
+        }
+        else {
+            view.failure();
+        }
+    }
 }

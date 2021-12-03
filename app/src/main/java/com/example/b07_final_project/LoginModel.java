@@ -46,7 +46,7 @@ public class LoginModel implements Contract.Model {
     }
 
     @Override
-    public void custLogin(LoginActivity view, String email, String password) {
+    public void custLogin(LoginActivity view, LoginPresenter presenter, String email, String password) {
         SharedPreferences p = view.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = p.edit();
 
@@ -67,7 +67,8 @@ public class LoginModel implements Contract.Model {
                                         editor.putString("email", email).apply();
                                         editor.putString("name", name).apply();
                                         editor.putBoolean("isCustomer", true).apply();
-                                        view.success(true);
+                                        presenter.determiner(true, true);
+                                        //view.success(true);
                                         return;
                                     }
                                 }
@@ -75,14 +76,15 @@ public class LoginModel implements Contract.Model {
                         }
                     });
                 } else {
-                    view.failure();
+                    presenter.determiner(false,true);
+                    //view.failure();
                 }
             }
         });
     }
 
     @Override
-    public void storeLogin(LoginActivity view, String email, String password) {
+    public void storeLogin(LoginActivity view, LoginPresenter presenter, String email, String password) {
         SharedPreferences p = view.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = p.edit();
 
@@ -102,7 +104,8 @@ public class LoginModel implements Contract.Model {
                                         editor.putString("email", o.getEmail()).apply();
                                         editor.putString("name", o.getName()).apply();
                                         editor.putBoolean("isCustomer", false).apply();
-                                        view.success(false);
+                                        presenter.determiner(true, false);
+                                        //view.success(false);
                                         return;
                                     }
                                 }
@@ -110,7 +113,8 @@ public class LoginModel implements Contract.Model {
                         }
                     });
                 } else {
-                    view.failure();
+                    presenter.determiner(false, false);
+                    //view.failure();
                 }
             }
         });

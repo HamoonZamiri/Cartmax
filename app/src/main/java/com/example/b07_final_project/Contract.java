@@ -4,8 +4,8 @@ public interface Contract {
     public interface Model {
         public abstract String emailError(String email);
         public abstract String pwError(String password);
-        public abstract void custLogin(LoginActivity view, String email, String password);
-        public abstract void storeLogin(LoginActivity view, String email, String password);
+        public abstract void custLogin(LoginActivity view, LoginPresenter presenter, String email, String password);
+        public abstract void storeLogin(LoginActivity view, LoginPresenter presenter, String email, String password);
     }
 
     public interface View {
@@ -18,5 +18,6 @@ public interface Contract {
 
     public interface Presenter {
         public abstract void login();
+        public abstract void determiner(boolean result, boolean isCust);
     }
 }
