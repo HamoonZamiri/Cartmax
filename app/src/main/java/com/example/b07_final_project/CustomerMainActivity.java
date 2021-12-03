@@ -37,6 +37,9 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
 
         Button myOrders = (Button) findViewById(R.id.myOrders);
         myOrders.setOnClickListener(this);
+
+        Button startCart = (Button) findViewById(R.id.startCart);
+        startCart.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +56,10 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 i.putExtra("email",email);
                 startActivity(i);
                 break;
+            case R.id.startCart:
+                Intent cartIntent = new Intent(this, CartActivity.class);
+                cartIntent.putExtra("email",email);
+                startActivity(cartIntent);
         }
     }
 

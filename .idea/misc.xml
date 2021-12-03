@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/activity_customer_main.xml" value="0.22" />
+        <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/fragment_shopping_cart_entry.xml" value="0.5" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/fragment_shopping_cart_item.xml" value="0.22" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/fragment_shopping_cart_item_list.xml" value="0.165625" />

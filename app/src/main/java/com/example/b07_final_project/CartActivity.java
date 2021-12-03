@@ -5,8 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-public class ShoppingCart extends AppCompatActivity {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
     private CartManager cartRecyclerViewManager;
     private User user; // activity needs to be given a user
@@ -23,4 +28,23 @@ public class ShoppingCart extends AppCompatActivity {
         view.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Button placeOrderButton = (Button) findViewById(R.id.placeOrderButton);
+        placeOrderButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.placeOrderButton:
+                placeOrder();
+                break;
+        }
+    }
+
+    private void placeOrder(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    }
 }

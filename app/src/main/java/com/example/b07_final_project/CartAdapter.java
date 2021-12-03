@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder>{
 
     private ArrayList<CartItem> cartItems;
     private Activity activity;
 
-    protected class ViewHolder extends RecyclerView.ViewHolder{
+    protected class CartViewHolder extends RecyclerView.ViewHolder{
         protected TextView itemNameTextView;
         protected TextView itemPriceTextView;
         protected TextView itemTotalTextView;
@@ -27,7 +27,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         protected Button removeFromCartButton;
         protected TextView orderTotalTextView;
 
-        public ViewHolder(View itemView) {
+        public CartViewHolder(View itemView) {
             super(itemView);
             this.itemNameTextView = (TextView) itemView.findViewById(R.id.productName);
             this.itemPriceTextView = (TextView) itemView.findViewById(R.id.productPrice);
@@ -46,14 +46,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     }
 
     @Override
-    public CartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View cartEntryView = inflater.inflate(R.layout.fragment_shopping_cart_entry, parent, false);
-        return new ViewHolder(cartEntryView);
+        return new CartViewHolder(cartEntryView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(CartViewHolder holder, int position) {
         CartItem item = (CartItem) cartItems.get(position);
         TextView itemNameTextView =  holder.itemNameTextView;
         itemNameTextView.setText(item.getBrand() + "'s " + item.getName());
