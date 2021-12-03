@@ -10,7 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B07_final_project">
         <activity
-            android:name=".ShoppingCart"
+            android:name=".MyOrdersActivity"
+            android:exported="false"
+            android:parentActivityName=".CustomerMainActivity"/>
+        <activity
+            android:name=".CustomerMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StoreListActivity"
+            android:exported="false"
+            android:parentActivityName=".CustomerMainActivity" />
+        <activity
+            android:name=".RegisterUser"
+            android:exported="false"
+            android:parentActivityName=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

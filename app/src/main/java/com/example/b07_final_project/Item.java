@@ -5,9 +5,10 @@ public class Item {
     private String brand;
     private double price;
 
-    public Item(){}
+    public Item() {
+    }
 
-    public Item(String name, String brand, double price) {
+    public Item(String name, String brand, int price) {
         this.name = name;
         this.brand = brand;
         this.price = price;
@@ -25,9 +26,6 @@ public class Item {
         return brand;
     }
 
-    public String toString(){
-        return brand + " " + name + ", " + price;
-    }
     @Override
     public boolean equals(Object obj) {
         if(obj == null)
@@ -43,4 +41,8 @@ public class Item {
         return name.hashCode() + brand.hashCode() + (int) price;
     }
 
+    @Override
+    public String toString() {
+        return name + "[" + brand + "]: $" + price;
+    }
 }

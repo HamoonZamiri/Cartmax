@@ -11,7 +11,7 @@ public class User {
         this.name = name;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
 
@@ -34,7 +34,7 @@ public class User {
             return false;
         if(this.getClass() != obj.getClass())
             return false;
-        User other = (User)obj;
+        User other = (User) obj;
         return this.email.equals(other.email);
     }
 
