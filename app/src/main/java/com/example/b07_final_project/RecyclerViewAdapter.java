@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         TextView orderTotalTextView = activity.findViewById(R.id.orderTotalValue);
 
+        TextView emptyCartTextView = activity.findViewById(R.id.empty_view);
+
         Button increaseItemCountButton = holder.increaseItemCountButton;
         increaseItemCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +115,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 double itemTotal = item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString());
                 double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) - itemTotal) * 100.0)/100.0;
                 orderTotalTextView.setText(String.valueOf(orderTotal));
+                if (cartItems.size() == 0){
+                    emptyCartTextView.setVisibility(View.VISIBLE);
+                }
             }
 
         });

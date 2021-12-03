@@ -7,4 +7,5 @@
     <string name="decrease">-</string>
     <string name="order_total">Order Total:</string>
     <string name="checkout_button">Place Order</string>
+    <string name="empty_cart">Cart empty. Add Products</string>
 </resources>

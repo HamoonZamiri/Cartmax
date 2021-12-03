@@ -34,7 +34,6 @@ public class RecyclerViewManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 updateData(snapshot);
-
             }
 
             @Override

@@ -27,26 +27,6 @@ public class ShoppingCart extends AppCompatActivity {
         RecyclerView view = (RecyclerView) findViewById(R.id.cartRecyclerView);
         cartRecyclerViewManager = new RecyclerViewManager(view, user, this);
         view.setLayoutManager(new LinearLayoutManager(this));
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onUpdate();
-            }
-        });
-        Double orderTotal = 0.0;
-        for (CartItem item : cartRecyclerViewManager.getData()) {
-            orderTotal += item.getPrice() * (double) item.count;
-        }
-        TextView orderTotalTextView = (TextView) findViewById(R.id.orderTotalValue);
-        orderTotalTextView.setText(orderTotal.toString());
     }
 
-    protected void onUpdate(){
-        TextView orderTotalTextView = (TextView) findViewById(R.id.orderTotalValue);
-        Double orderTotal = 0.0;
-        for (CartItem item : cartRecyclerViewManager.getData()) {
-            orderTotal += item.getPrice() * (double) item.count;
-        }
-        orderTotalTextView.setText(orderTotal.toString());
-    }
 }
