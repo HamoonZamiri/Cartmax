@@ -13,6 +13,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/itemPrice"
+                android:layout_width="58dp"
+                android:layout_height="19dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.737"
+                tools:layout_editor_absoluteX="222dp" />
+
             <Button
                 android:id="@+id/itemActions"
                 android:layout_width="wrap_content"
@@ -35,8 +45,8 @@
 
             <TextView
                 android:id="@+id/itemDescription"
-                android:layout_width="266dp"
-                android:layout_height="20dp"
+                android:layout_width="196dp"
+                android:layout_height="19dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="TextView"
