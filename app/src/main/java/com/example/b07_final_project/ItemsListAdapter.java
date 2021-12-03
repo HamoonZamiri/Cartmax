@@ -16,10 +16,10 @@ public class ItemsListAdapter extends RecyclerView.Adapter<ItemsListAdapter.Item
     private Context context;
     ArrayList<String> names;
     ArrayList<String> brands;
-    ArrayList<Integer> prices;
+    ArrayList<Double> prices;
 
     public ItemsListAdapter(Context context, ArrayList<String> names, ArrayList<String> brands,
-                            ArrayList<Integer> prices) {
+                            ArrayList<Double> prices) {
         this.context = context;
         this.names = names;
         this.brands = brands;

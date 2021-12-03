@@ -1,26 +1,18 @@
 package com.example.b07_final_project;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
     private ArrayList<CartItem> cartItems;
     private Activity activity;
@@ -48,13 +40,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(ArrayList<CartItem> cartItems, Activity activity){
+    public CartAdapter(ArrayList<CartItem> cartItems, Activity activity){
         this.cartItems = cartItems;
         this.activity = activity;
     }
 
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View cartEntryView = inflater.inflate(R.layout.fragment_shopping_cart_entry, parent, false);
         return new ViewHolder(cartEntryView);

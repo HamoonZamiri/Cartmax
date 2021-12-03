@@ -43,7 +43,7 @@ public class OrdersListAdapter extends RecyclerView.Adapter<OrdersListAdapter.Or
         ArrayList<Item> items = itemsList.get(position);
         ArrayList<String> names = new ArrayList<String>();
         ArrayList<String> brands = new ArrayList<String>();
-        ArrayList<Integer> prices = new ArrayList<Integer>();
+        ArrayList<Double> prices = new ArrayList<Double>();
         for(Item i : items) {
             names.add(i.getName());
             brands.add(i.getBrand());

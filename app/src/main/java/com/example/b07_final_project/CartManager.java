@@ -14,20 +14,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecyclerViewManager {
+public class CartManager {
     private ArrayList<CartItem> data;
     private DatabaseReference databaseRef;
-    private RecyclerViewAdapter adapter;
+    private CartAdapter adapter;
     private RecyclerView recyclerView;
     private Activity activity;
 
-    public RecyclerViewManager(RecyclerView view, User user, Activity activity){
+    public CartManager(RecyclerView view, User user, Activity activity){
         this.activity = activity;
         recyclerView = view;
         data = new ArrayList<CartItem>();
-        adapter = new RecyclerViewAdapter(data, activity);
+        adapter = new CartAdapter(data, activity);
         recyclerView.setAdapter(adapter);
         databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers").child(user.getName());
         databaseRef.child("cart").addValueEventListener(new ValueEventListener() {
