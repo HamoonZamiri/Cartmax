@@ -1,8 +1,5 @@
 package com.example.b07_final_project;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,16 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
 
     public static boolean ownerTrack = false;
-    private TextView registerUser;
     private FirebaseAuth mAuth;
     private EditText editTextName, editTextEmail, editTextPassword;
 
@@ -31,7 +28,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_register_user);
         mAuth = FirebaseAuth.getInstance();
 
-        registerUser = (Button) findViewById(R.id.registerUser);
+        TextView registerUser = (Button) findViewById(R.id.registerUser);
         registerUser.setOnClickListener(this);
 
         editTextName = (EditText) findViewById(R.id.fullName);
@@ -89,19 +86,15 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            User user = new User(email, password, fullName);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        User user = new User(email, password, fullName);
 
-                            if (!isOwner){
-                                FirebaseDatabase.getInstance().getReference("Users/Customers")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
+                        if (!isOwner){
+                            FirebaseDatabase.getInstance().getReference("Users/Customers")
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                    .setValue(user).addOnCompleteListener(task12 -> {
+                                        if (task12.isSuccessful()){
                                             Toast.makeText(RegisterUser.this,
                                                     "Customer has been registered successfully",
                                                     Toast.LENGTH_LONG).show();
@@ -111,16 +104,13 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                                     "Failed to register new user",
                                                     Toast.LENGTH_LONG).show();
                                         }
-                                    }
-                            });}
-                            else {
+                                    });}
+                        else {
 
-                                FirebaseDatabase.getInstance().getReference("Users/Owners")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
+                            FirebaseDatabase.getInstance().getReference("Users/Owners")
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                    .setValue(user).addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()){
                                             Toast.makeText(RegisterUser.this,
                                                     "Owner has been registered successfully",
                                                     Toast.LENGTH_LONG).show();
@@ -130,21 +120,15 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                                     "Failed to register new user",
                                                     Toast.LENGTH_LONG).show();
                                         }
-                                    }
-                                });}
-                        }
-                        else{
-                            Toast.makeText(RegisterUser.this,
-                                    "Failed to register new user",
-                                    Toast.LENGTH_LONG).show();
-                        }
+                                    });}
+                    }
+                    else{
+                        Toast.makeText(RegisterUser.this,
+                                "Failed to register new user",
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
     }
 
-    public void onOwnerClicked(View view) {
-        // Is the view now checked?
-        ownerTrack = ((CheckBox) view).isChecked();
-    }
 }
