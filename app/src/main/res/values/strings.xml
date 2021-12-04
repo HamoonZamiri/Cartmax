@@ -12,4 +12,21 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register">"Register"</string>
+    <string name="myStore">"My Store"</string>
+    <string name="title_activity_owner_add_item">OwnerAddItemActivity</string>
+    <string name="owner_add_item">Add Item</string>
+    <string name="owner_add_item_name">Add Item Name</string>
+    <string name="name">Name</string>
+    <string name="brand">Brand</string>
+    <string name="quantity">Quantity</string>
+    <string name="description">Description</string>
+    <string name="owner_add_brand_name">Add Brand Name</string>
+    <string name="owner_add_description">Add Description</string>
+    <string name="owner_add_quantity">Add Quantity</string>
+    <string name="first_fragment_label"></string>
+    <string name="second_fragment_label"></string>
+    <string name="price">Price</string>
+    <string name="owner_add_price">Add Price</string>
+
+
 </resources>

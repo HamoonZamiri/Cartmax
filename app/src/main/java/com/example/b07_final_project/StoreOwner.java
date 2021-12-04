@@ -15,6 +15,14 @@ public class StoreOwner extends User {
         orders = new ArrayList<Order>();
     }
 
+    public void setProducts(ArrayList<Item> arrListItem){
+        this.products = arrListItem;
+    }
+
+    public void setOrders(ArrayList<Order> arrListOrder){
+        this.orders = arrListOrder;
+    }
+
     public ArrayList<Order> getOrders() {
         return orders;
     }

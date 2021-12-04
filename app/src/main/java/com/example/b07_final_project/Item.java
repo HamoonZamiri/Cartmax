@@ -4,14 +4,16 @@ public class Item {
     private String name;
     private String brand;
     private int price;
+    private String description;
 
     public Item() {
     }
 
-    public Item(String name, String brand, int price) {
+    public Item(String name, String brand, int price, String description) {
         this.name = name;
         this.brand = brand;
         this.price = price;
+        this.description = description; // added new description field for item object
     }
 
     public String getName() {
@@ -25,6 +27,8 @@ public class Item {
     public String getBrand() {
         return brand;
     }
+
+    public String getDescription() { return description; }
 
     @Override
     public boolean equals(Object obj) {
