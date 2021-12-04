@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -45,6 +46,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
+
+        login.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            presenter.login();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+
+        });
 
         presenter = new LoginPresenter(new LoginModel(), this);
 
@@ -108,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(LoginActivity.this,
                     "User is an owner",
                     Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -121,4 +143,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
     }
+
 }

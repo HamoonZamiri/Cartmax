@@ -1,5 +1,6 @@
 package com.example.b07_final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
@@ -91,13 +93,18 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                         User user = new User(email, password, fullName);
 
                         if (!isOwner){
-                            FirebaseDatabase.getInstance().getReference("Users/Customers")
-                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/Customers");
+                                    ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(user).addOnCompleteListener(task12 -> {
                                         if (task12.isSuccessful()){
+                                            ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                                                    .getUid()).child("cart").setValue("");
+                                            ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                                                    .getUid()).child("orders").setValue("");
                                             Toast.makeText(RegisterUser.this,
                                                     "Customer has been registered successfully",
                                                     Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(RegisterUser.this, LoginActivity.class));
                                         }
                                         else{
                                             Toast.makeText(RegisterUser.this,
@@ -114,6 +121,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                             Toast.makeText(RegisterUser.this,
                                                     "Owner has been registered successfully",
                                                     Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(RegisterUser.this, LoginActivity.class));
                                         }
                                         else{
                                             Toast.makeText(RegisterUser.this,
