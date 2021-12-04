@@ -129,6 +129,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(LoginActivity.this,
                     "User is an owner",
                     Toast.LENGTH_LONG).show();
+            i = new Intent(LoginActivity.this, OwnerMainActivity.class);
+            i.putExtra("email", email);
+            i.putExtra("name", name);
+            startActivity(i);
 
         }
     }

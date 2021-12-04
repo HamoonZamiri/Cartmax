@@ -48,4 +48,8 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    @Override
+    public void onBackPressed() {
+    }
+
 }

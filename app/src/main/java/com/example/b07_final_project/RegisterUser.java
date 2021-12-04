@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
@@ -90,9 +91,9 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        User user = new User(email, password, fullName);
 
                         if (!isOwner){
+                            User user = new User(email, password, fullName);
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/Customers");
                                     ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(user).addOnCompleteListener(task12 -> {
@@ -113,11 +114,15 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                         }
                                     });}
                         else {
-
-                            FirebaseDatabase.getInstance().getReference("Users/Owners")
-                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                    .setValue(user).addOnCompleteListener(task1 -> {
+                            StoreOwner owner = new StoreOwner(email, password, fullName);
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/Owners");
+                                    ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                    .setValue(owner).addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()){
+                                            ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                                                    .getUid()).child("products").setValue("");
+                                            ref.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                                                    .getUid()).child("orders").setValue("");
                                             Toast.makeText(RegisterUser.this,
                                                     "Owner has been registered successfully",
                                                     Toast.LENGTH_LONG).show();
