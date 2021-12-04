@@ -18,15 +18,18 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
     List<String> lst_brands;
     List<String> lst_descriptions;
     List<Integer> lst_quantities;
+    List<Integer> lst_prices;
     Context context;
 
     public OwnerListItemsAdapter(Context ct, List<String> names, List<String> brands,
-                                 List<String> descriptions, List<Integer> myQuantities) {
+                                 List<String> descriptions, List<Integer> myQuantities, List<Integer> myPrices) {
         lst_names = names;
         lst_brands = brands;
         lst_descriptions = descriptions;
         lst_quantities = myQuantities;
+        lst_prices = myPrices;
         context = ct;
+
     }
 
 
@@ -46,6 +49,7 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
         holder.itemBrand.setText(lst_brands.get(position));
         holder.itemDescription.setText(lst_descriptions.get(position));
         holder.itemQuantity.setText(lst_quantities.get(position));
+        holder.itemPrice.setText(lst_quantities.get(position));
     }
 
     @Override
@@ -55,7 +59,7 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView itemName, itemBrand, itemDescription, itemQuantity;
+        TextView itemName, itemBrand, itemDescription, itemQuantity, itemPrice;
 
         public MyViewHolder(@NonNull View itemView) {
             super(Objects.requireNonNull(itemView));
@@ -63,6 +67,7 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
             itemBrand = itemView.findViewById(R.id.itemBrand);
             itemDescription = itemView.findViewById(R.id.itemDescription);
             itemQuantity = itemView.findViewById(R.id.itemQty);
+            itemPrice = itemView.findViewById(R.id.itemPrice);
         }
     }
 }
