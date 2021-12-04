@@ -15,34 +15,44 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CartManager {
+public class CartManager implements ValueEventListener{
     private ArrayList<CartItem> data;
     private DatabaseReference databaseRef;
     private CartAdapter adapter;
     private RecyclerView recyclerView;
     private Activity activity;
+    private User user;
 
-    public CartManager(RecyclerView view, User user, Activity activity){
+    public CartManager(RecyclerView view, User user, CartActivity activity){
         this.activity = activity;
-        recyclerView = view;
-        data = new ArrayList<CartItem>();
-        adapter = new CartAdapter(data, activity);
+        this.user = user;
+        this.recyclerView = view;
+        this.data = new ArrayList<CartItem>();
+        this.adapter = new CartAdapter(data, activity);
         recyclerView.setAdapter(adapter);
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers").child(user.getName());
-        databaseRef.child("cart").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                updateData(snapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("err", "listener failure");
-            }
-        });
+        this.databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
+        databaseRef.addListenerForSingleValueEvent(this);
     }
 
-    private void updateData(DataSnapshot snapshot){
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public ArrayList<CartItem> getData(){
+        return data;
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        for (DataSnapshot child : snapshot.getChildren()){
+
+            String temp = child.child("email").getValue().toString();
+            Log.i("UID", "here");
+            if (temp.equals(user.getEmail())){
+                Log.i("UID", child.getKey().toString());
+                snapshot = child.child("cart");
+            }
+        }
         data.clear();
 
         for (DataSnapshot child : snapshot.getChildren()){
@@ -57,11 +67,20 @@ public class CartManager {
         orderTotalTextView.setText(orderTotal.toString());
     }
 
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+        Log.e("Database", error.toException().toString());
     }
 
-    public ArrayList<CartItem> getData(){
-        return data;
+    public DatabaseReference getDatabaseRef(){
+        return databaseRef;
+    }
+
+    private String getUID(){
+        return "TODO";
+    }
+
+    public void updateDatabase(String item, Object value){
+
     }
 }

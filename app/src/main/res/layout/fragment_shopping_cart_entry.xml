@@ -36,9 +36,8 @@
 
     <TextView
         android:id="@+id/productTotal"
-        android:layout_width="75dp"
+        android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_marginStart="52dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="18dp"
         android:text="TextView"
@@ -46,8 +45,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/increaseProductCount"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toEndOf="@+id/productName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText

@@ -21,7 +21,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart);
 
-        user = new User("email.com", "hunter2", "user1");
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            user = new User(extras.getString("email"), "", "");
+        }
 
         RecyclerView view = (RecyclerView) findViewById(R.id.cartRecyclerView);
         cartRecyclerViewManager = new CartManager(view, user, this);
@@ -46,5 +49,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void placeOrder(){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public CartManager getCartRecyclerViewManager(){
+        return cartRecyclerViewManager;
     }
 }

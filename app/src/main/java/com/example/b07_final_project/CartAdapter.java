@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private ArrayList<CartItem> cartItems;
-    private Activity activity;
+    private CartActivity activity;
 
     protected class CartViewHolder extends RecyclerView.ViewHolder{
         protected TextView itemNameTextView;
         protected TextView itemPriceTextView;
         protected TextView itemTotalTextView;
         protected EditText itemCountTextView;
-        protected Button increaseItemCountButton;
-        protected Button decreaseItemCountButton;
+        protected Button increaseProductCountButton;
+        protected Button decreaseProductCountButton;
         protected Button removeFromCartButton;
         protected TextView orderTotalTextView;
 
@@ -34,13 +34,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.itemTotalTextView = (TextView) itemView.findViewById(R.id.productTotal);
             this.orderTotalTextView = (TextView) itemView.findViewById(R.id.orderTotalValue);
             this.itemCountTextView = (EditText) itemView.findViewById(R.id.productCount);
-            this.increaseItemCountButton = (Button) itemView.findViewById(R.id.increaseProductCount);
-            this.decreaseItemCountButton = (Button) itemView.findViewById(R.id.decreaseProductCount);
+            this.increaseProductCountButton = (Button) itemView.findViewById(R.id.increaseProductCount);
+            this.decreaseProductCountButton = (Button) itemView.findViewById(R.id.decreaseProductCount);
             this.removeFromCartButton = (Button) itemView.findViewById(R.id.removeFromCartButton);
         }
     }
 
-    public CartAdapter(ArrayList<CartItem> cartItems, Activity activity){
+    public CartAdapter(ArrayList<CartItem> cartItems, CartActivity activity){
         this.cartItems = cartItems;
         this.activity = activity;
     }
@@ -72,19 +72,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         TextView emptyCartTextView = activity.findViewById(R.id.empty_view);
 
-        Button increaseItemCountButton = holder.increaseItemCountButton;
-        increaseItemCountButton.setOnClickListener(new View.OnClickListener() {
+        Button increaseProductCountButton = holder.increaseProductCountButton;
+        increaseProductCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemCountTextView.setText(String.valueOf(Integer.parseInt(itemCountTextView.getText().toString())+ 1));
+                int itemCount = Integer.parseInt(itemCountTextView.getText().toString())+ 1;
+                itemCountTextView.setText(String.valueOf(itemCount));
                 Double itemTotal = (double)Math.round((item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString())) * 100.0)/100.0;
                 itemTotalTextView.setText("$" + itemTotal);
                 double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) + item.getPrice()) * 100.0)/100.0;
                 orderTotalTextView.setText(String.valueOf(orderTotal));
+                //activity.getCartRecyclerViewManager().updateDatabase("item"+position, itemCount);
             }
         });
-        Button decreaseItemCountButton = holder.decreaseItemCountButton;
-        decreaseItemCountButton.setOnClickListener(new View.OnClickListener() {
+        Button decreaseProductCountButton = holder.decreaseProductCountButton;
+        decreaseProductCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Integer.parseInt(itemCountTextView.getText().toString()) > 1) {
@@ -102,13 +104,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         removeFromCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 removeItem(holder.getAdapterPosition());
                 double itemTotal = item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString());
                 double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) - itemTotal) * 100.0)/100.0;
                 orderTotalTextView.setText(String.valueOf(orderTotal));
                 if (cartItems.size() == 0){
                     emptyCartTextView.setVisibility(View.VISIBLE);
+                }else{
+                    emptyCartTextView.setVisibility(View.GONE);
                 }
             }
 
