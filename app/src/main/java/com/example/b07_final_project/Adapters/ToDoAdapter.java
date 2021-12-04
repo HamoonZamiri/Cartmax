@@ -16,6 +16,8 @@ import com.example.b07_final_project.StoreOrdersActivity;
 import com.example.b07_final_project.Model.ToDoModel;
 import com.example.b07_final_project.R;
 import com.example.b07_final_project.Utils.DatabaseHandler;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -41,7 +43,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         db.openDatabase();
-
         final ToDoModel item = todoList.get(position);
         holder.task.setText(item.getTask());
         holder.task.setChecked(toBoolean(item.getStatus()));

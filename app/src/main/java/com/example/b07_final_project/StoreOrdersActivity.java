@@ -18,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.b07_final_project.Utils.DatabaseHandler;
 import com.example.b07_final_project.Model.ToDoModel;
 import com.example.b07_final_project.Adapters.ToDoAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +48,20 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
         db = new DatabaseHandler(this);
         db.openDatabase();
+
+
+        String id = "user3";
+        Item item = new Item("macbook", "apple", 1000, "apple laptop");
+        ArrayList<Item> arrListItem = new ArrayList<Item>();
+        arrListItem.add(item);
+        Order order = new Order("Apple store", arrListItem);
+        DatabaseReference fdb = FirebaseDatabase.getInstance().getReference();
+        ArrayList<Order> arrListOrder = new ArrayList<Order>();
+        arrListOrder.add(order);
+        StoreOwner storeOwner = new StoreOwner("lol", "lol", "lol");
+        storeOwner.setOrders(arrListOrder);
+        storeOwner.setProducts(arrListItem);
+        fdb.child("Users").child("Owners").child("user3").child("store").setValue(storeOwner); //placeholder
 
         tasksRecyclerView = findViewById(R.id.tasksRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
