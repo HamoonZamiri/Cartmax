@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,16 +49,33 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         ArrayList<Integer> lst_prices = new ArrayList<Integer>();
 
         // Read from the database
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         String uId = currentUser.getUid();
 
+        // Setting text to user full name
+
+        TextView tv = (TextView) findViewById(R.id.customerName);
+        DatabaseReference nameRef = database.getReference("Users").child("Owners").child(uId).child("name");
+        nameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String username = dataSnapshot.getValue(String.class);
+                tv.setText(username);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
 
         DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(uId).child("store").child("products");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     String name = child.child("name").getValue(String.class);
                     lst_names.add(name);
@@ -97,7 +116,8 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         String[] brandArray = lst_brands.toArray(new String[0]);
         String[] descriptionArray = lst_descriptions.toArray(new String[0]);
         Integer[] priceArray = lst_prices.toArray(new Integer[0]);
-        Integer[] quantityArray = lst_prices.toArray(new Integer[0]);
+        Integer[] quantityArray = lst_quantities.toArray(new Integer[0]);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.viewItems);
         OwnerListItemsAdapter adapter = new OwnerListItemsAdapter(this, nameArray, brandArray,
                 descriptionArray, quantityArray, priceArray);
         recyclerView.setAdapter(adapter);

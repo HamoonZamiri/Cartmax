@@ -47,8 +47,8 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
         holder.itemName.setText(lst_names[position]);
         holder.itemBrand.setText(lst_brands[position]);
         holder.itemDescription.setText(lst_descriptions[position]);
-        holder.itemQuantity.setText(lst_quantities[position]);
-        holder.itemPrice.setText(lst_quantities[position]);
+        holder.itemQuantity.setText("Qty: " + String.valueOf(lst_quantities[position]));
+        holder.itemPrice.setText("Price: " + String.valueOf(lst_prices[position]));
     }
 
     @Override

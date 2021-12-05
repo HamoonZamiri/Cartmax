@@ -28,8 +28,12 @@
         <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/store_row.xml" value="0.55" />
         <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/switch_item.xml" value="0.328125" />
         <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/task_layout.xml" value="0.328125" />
-        <entry key="app/src/main/res/layout/activity_owner_list_items.xml" value="0.18562618343739626" />
-        <entry key="app/src/main/res/layout/item_row.xml" value="0.12447916666666667" />
+        <entry key="app/src/main/res/layout/activity_owner_add_item.xml" value="0.1911231884057971" />
+        <entry key="app/src/main/res/layout/activity_owner_list_items.xml" value="0.15220484706248366" />
+        <entry key="app/src/main/res/layout/item_column.xml" value="0.29668272567816817" />
+        <entry key="app/src/main/res/layout/item_row.xml" value="0.6265562834160523" />
+        <entry key="app/src/main/res/layout/order_row.xml" value="0.2230498242736681" />
+        <entry key="app/src/main/res/layout/recycler_view_item.xml" value="0.1" />
       </map>
     </option>
   </component>

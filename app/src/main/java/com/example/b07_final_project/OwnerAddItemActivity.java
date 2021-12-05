@@ -56,8 +56,8 @@ public class OwnerAddItemActivity extends AppCompatActivity {
             String nameString = itemName.getText().toString();
             String brandString = itemBrand.getText().toString();
             String descriptionString = itemDescription.getText().toString();
-            int quantityInt = Integer.parseInt(itemQty.getText().toString());
-            int priceInt = Integer.parseInt(itemPrice.getText().toString());
+            Integer quantityInt = Integer.parseInt(itemQty.getText().toString());
+            Integer priceInt = Integer.parseInt(itemPrice.getText().toString());
 
             if (nameString == "" || brandString == "" || descriptionString == "") {
                 Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
