@@ -13,7 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private CartManager cartRecyclerViewManager;
+    private CartDataManager cartDataManager;
+    private CartAdapter adapter;
     private User user; // activity needs to be given a user
 
     @Override
@@ -25,10 +26,12 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         if(extras != null) {
             user = new User(extras.getString("email"), "", "");
         }
+        cartDataManager = new CartDataManager(user, this);
 
-        RecyclerView view = (RecyclerView) findViewById(R.id.cartRecyclerView);
-        cartRecyclerViewManager = new CartManager(view, user, this);
-        view.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        adapter = new CartAdapter(cartDataManager.getData(), this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -51,7 +54,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     }
 
-    public CartManager getCartRecyclerViewManager(){
-        return cartRecyclerViewManager;
+    public CartDataManager getCartRecyclerViewManager(){
+        return cartDataManager;
+    }
+
+    public void updateAdapter(){
+        adapter.notifyDataSetChanged();
     }
 }

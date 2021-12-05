@@ -1,6 +1,9 @@
 package com.example.b07_final_project;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -25,14 +29,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         protected Button increaseProductCountButton;
         protected Button decreaseProductCountButton;
         protected Button removeFromCartButton;
-        protected TextView orderTotalTextView;
 
         public CartViewHolder(View itemView) {
             super(itemView);
             this.itemNameTextView = (TextView) itemView.findViewById(R.id.productName);
             this.itemPriceTextView = (TextView) itemView.findViewById(R.id.productPrice);
             this.itemTotalTextView = (TextView) itemView.findViewById(R.id.productTotal);
-            this.orderTotalTextView = (TextView) itemView.findViewById(R.id.orderTotalValue);
             this.itemCountTextView = (EditText) itemView.findViewById(R.id.productCount);
             this.increaseProductCountButton = (Button) itemView.findViewById(R.id.increaseProductCount);
             this.decreaseProductCountButton = (Button) itemView.findViewById(R.id.decreaseProductCount);
@@ -43,6 +45,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public CartAdapter(ArrayList<CartItem> cartItems, CartActivity activity){
         this.cartItems = cartItems;
         this.activity = activity;
+        if (cartItems.size() == 0){
+            activity.findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
+        }else{
+            activity.findViewById(R.id.empty_view).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -59,30 +66,65 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         itemNameTextView.setText(item.getBrand() + "'s " + item.getName());
 
         TextView itemPriceTextView = holder.itemPriceTextView;
-        itemPriceTextView.setText(String.valueOf(item.getPrice()));
+        itemPriceTextView.setText(String.format("%.2f", item.getPrice()));
 
         TextView itemTotalTextView = holder.itemTotalTextView;
-        Double totalPrice = item.getPrice() * item.count;
-        itemTotalTextView.setText("$" + totalPrice);
+        Double totalPrice = Math.round(item.getPrice() * item.count * 100.0) / 100.0;
+        itemTotalTextView.setText("$" + String.format("%.2f",totalPrice));
+
+        TextView emptyCartTextView = activity.findViewById(R.id.empty_view);
+        if (cartItems.size() == 0){
+            activity.findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
+        }else{
+            activity.findViewById(R.id.empty_view).setVisibility(View.GONE);
+        }
 
         EditText itemCountTextView = holder.itemCountTextView;
         itemCountTextView.setText(String.valueOf(item.count));
+        itemCountTextView.addTextChangedListener(new TextWatcher() {
+            boolean ignore = false;
+            String before;
+            String after;
 
-        TextView orderTotalTextView = activity.findViewById(R.id.orderTotalValue);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (ignore) return;
+                before = s.toString();
+                if (before.equals("")){
+                    before = "0";
+                }
+            }
 
-        TextView emptyCartTextView = activity.findViewById(R.id.empty_view);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (ignore) return;
+                after = s.toString();
+                if (after.equals("")){
+                    after = "0";
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (ignore) return;
+                if (Integer.parseInt(after) > 100) {
+                    after = "100";
+                    ignore = true;
+                    holder.itemCountTextView.setText("100");
+                    ignore = false;
+                }
+                item.count = Integer.parseInt(after);
+                updateItemTotal(holder, item);
+                updateOrderTotal();
+                activity.getCartRecyclerViewManager().updateDatabase(0);
+            }
+        });
 
         Button increaseProductCountButton = holder.increaseProductCountButton;
         increaseProductCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int itemCount = Integer.parseInt(itemCountTextView.getText().toString())+ 1;
-                itemCountTextView.setText(String.valueOf(itemCount));
-                Double itemTotal = (double)Math.round((item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString())) * 100.0)/100.0;
-                itemTotalTextView.setText("$" + itemTotal);
-                double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) + item.getPrice()) * 100.0)/100.0;
-                orderTotalTextView.setText(String.valueOf(orderTotal));
-                //activity.getCartRecyclerViewManager().updateDatabase("item"+position, itemCount);
+                updateItemCount(holder,item.count + 1);
             }
         });
         Button decreaseProductCountButton = holder.decreaseProductCountButton;
@@ -90,12 +132,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             @Override
             public void onClick(View v) {
                 if (Integer.parseInt(itemCountTextView.getText().toString()) > 1) {
-                    Integer count = Integer.parseInt(itemCountTextView.getText().toString()) - 1;
-                    itemCountTextView.setText(String.valueOf(count));
-                    Double itemTotal = (double)Math.round((item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString())) * 100.0)/100.0;
-                    itemTotalTextView.setText("$" + itemTotal);
-                    double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) - item.getPrice()) * 100.0)/100.0;
-                    orderTotalTextView.setText(String.valueOf(orderTotal));
+                    updateItemCount(holder, item.count -1);
                 }
             }
         });
@@ -105,16 +142,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             @Override
             public void onClick(View v) {
                 removeItem(holder.getAdapterPosition());
-                double itemTotal = item.getPrice() * Double.parseDouble(itemCountTextView.getText().toString());
-                double orderTotal = (double) Math.round((Double.parseDouble(orderTotalTextView.getText().toString()) - itemTotal) * 100.0)/100.0;
-                orderTotalTextView.setText(String.valueOf(orderTotal));
                 if (cartItems.size() == 0){
                     emptyCartTextView.setVisibility(View.VISIBLE);
                 }else{
                     emptyCartTextView.setVisibility(View.GONE);
                 }
             }
-
         });
     }
 
@@ -123,8 +156,32 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartItems.size();
     }
 
-    public void removeItem(int position){
+    private void removeItem(int position){
         cartItems.remove(position);
         notifyItemRemoved(position);
+
+        updateOrderTotal();
+
+        activity.getCartRecyclerViewManager().updateDatabase(1);
     }
+
+    private void updateItemCount(CartViewHolder holder, int count){
+        holder.itemCountTextView.setText(String.valueOf(count));
+    }
+
+    private void updateOrderTotal() {
+        Double orderTotal = 0.0;
+        for (CartItem i : cartItems){
+            orderTotal += i.getPrice() * i.count;
+        }
+        TextView orderTotalTextView = (TextView) activity.findViewById(R.id.orderTotalValue);
+        orderTotalTextView.setText("$" + String.format("%.2f", orderTotal));
+    }
+
+    private void updateItemTotal(CartViewHolder holder, CartItem item) {
+        Double itemTotal = Math.round(item.getPrice() * item.count * 100.0)/100.0;
+        holder.itemTotalTextView.setText("$" + String.format("%.2f", itemTotal));
+    }
+
+
 }

@@ -14,4 +14,9 @@ public class CartItem extends Item{
         super(name, brand, price);
         this.count = count;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() + " x " + count;
+    }
 }
