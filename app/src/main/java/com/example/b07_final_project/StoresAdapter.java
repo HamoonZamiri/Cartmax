@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresViewHolder> {
 
     private Context context;
-    String[] data;
+    private String[] data;
 
     public StoresAdapter(Context ct, String[] arr) {
         data = arr;

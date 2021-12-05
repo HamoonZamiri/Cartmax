@@ -67,7 +67,7 @@ public class CartDataManager implements ValueEventListener{
         TextView orderTotalTextView = activity.findViewById(R.id.orderTotalValue);
         Double orderTotal = 0.0;
         for (CartItem item : data) {
-            orderTotal += item.getPrice() * (double) item.count;
+            orderTotal += item.getPrice() * (double) item.getCount();
         }
         orderTotal = Math.round(orderTotal * 100.0) / 100.0;
         orderTotalTextView.setText(String.format("%.2f", orderTotal));
@@ -87,20 +87,14 @@ public class CartDataManager implements ValueEventListener{
         return databaseRef;
     }
 
-    private String getUID(){
-        return "TODO";
-    }
-
     public void updateDatabase(int deleted){
 
         databaseRef = FirebaseDatabase.getInstance().getReference("Users/Customers/"+UID+"/cart");
         for (int i = 0; i < data.size(); i++){
             databaseRef.child("item"+i).setValue(data.get(i));
-            Log.i("database update", "setting count to "  + data.get(i).count);
         }
 
         for (int i = data.size(); i < data.size() + deleted; i++){
-            Log.i("database update", "removing item");
             databaseRef.child("item"+i).removeValue();
         }
 

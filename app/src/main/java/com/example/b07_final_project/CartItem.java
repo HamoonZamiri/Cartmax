@@ -1,17 +1,23 @@
 package com.example.b07_final_project;
 
 public class CartItem extends Item{
-    public int count;
+    private int count;
 
-    public CartItem(){}
-
-    public CartItem(String name, String brand, double price) {
-        super(name, brand, price);
+    public CartItem(String name, String brand, double price, String description) {
+        super(name, brand, price, description);
         count = 1;
     }
 
-    public CartItem(String name, String brand, double price, int count) {
-        super(name, brand, price);
+    public CartItem(String name, String brand, double price, String description, int count) {
+        super(name, brand, price, description);
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count){
         this.count = count;
     }
 
