@@ -40,6 +40,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
 
         Button startCart = (Button) findViewById(R.id.startCart);
         startCart.setOnClickListener(this);
+
     }
 
     @Override

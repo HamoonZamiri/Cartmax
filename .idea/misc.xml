@@ -3,6 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.5661458333333333" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/drawable/ic_baseline_delete.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/drawable/settings.xml" value="0.5661458333333333" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_customer_main.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_login.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_main.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_my_orders.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_owner_main.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_owners_screen.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_register_user.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_store_list.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/activity_store_orders.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/content_orders.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/content_owner_add_item.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/content_store_orders.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/fragment_first2.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/fragment_item.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/fragment_item_list.xml" value="0.5359375" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/fragment_second2.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/item_row.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/new_task.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/store_row.xml" value="0.55" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/switch_item.xml" value="0.328125" />
+        <entry key="..\:/Users/CoolHenry/Documents/GitHub/b07-final-project/app/src/main/res/layout/task_layout.xml" value="0.328125" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/activity_customer_main.xml" value="0.22" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
         <entry key="..\:/Users/zack2/AndroidStudioProjects/b07-final-project/app/src/main/res/layout/fragment_shopping_cart_entry.xml" value="0.3333333333333333" />

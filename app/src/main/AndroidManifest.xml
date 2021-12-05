@@ -10,9 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B07_final_project">
         <activity
+            android:name=".StoreOrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerAddItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerListItemsAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerListItemsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyOrdersActivity"
             android:exported="false"
-            android:parentActivityName=".CustomerMainActivity"/>
+            android:parentActivityName=".CustomerMainActivity" />
         <activity
             android:name=".CustomerMainActivity"
             android:exported="false" />

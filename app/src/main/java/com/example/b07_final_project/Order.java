@@ -46,4 +46,19 @@ public class Order {
         return items;
     }
 
+    @Override
+    public String toString(){
+        String a = "";
+
+        a += storeName + "\n";
+        a += items.toString() + "\n";
+
+        if(complete)
+            a += "Completion: true \n";
+        else
+            a += "Completion: false \n";
+
+        return a;
+    }
+
 }
