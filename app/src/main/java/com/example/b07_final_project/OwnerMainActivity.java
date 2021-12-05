@@ -41,9 +41,11 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.myStore:
                 startActivity(new Intent(this, OwnerListItemsActivity.class));
+                break;
 
             case R.id.button_store_orders:
                 startActivity(new Intent(this, StoreOrdersActivity.class));
+                break;
         }
     }
 

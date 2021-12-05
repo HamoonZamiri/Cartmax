@@ -9,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.B07_final_project">
+
         <activity
             android:name=".StoreOrdersActivity"
             android:exported="false" />
         <activity
             android:name=".OwnerAddItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OwnerListItemsAdapter"
             android:exported="false" />
         <activity
             android:name=".OwnerListItemsActivity"

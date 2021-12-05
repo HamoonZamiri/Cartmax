@@ -40,11 +40,11 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
 
         // Listing items from database
 
-        List<String> lst_names = new ArrayList<String>();
-        List<String> lst_brands = new ArrayList<String>();
-        List<String> lst_descriptions = new ArrayList<String>();
-        List<Integer> lst_quantities = new ArrayList<Integer>();
-        List<Integer> lst_prices = new ArrayList<Integer>();
+        ArrayList<String> lst_names = new ArrayList<String>();
+        ArrayList<String> lst_brands = new ArrayList<String>();
+        ArrayList<String> lst_descriptions = new ArrayList<String>();
+        ArrayList<Integer> lst_quantities = new ArrayList<Integer>();
+        ArrayList<Integer> lst_prices = new ArrayList<Integer>();
 
         // Read from the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -59,17 +59,17 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     String name = child.child("name").getValue(String.class);
-                    System.out.println(name);
                     lst_names.add(name);
-                    String brand = child.child("brand").getValue(String.class);
+                    String brand = child.child("itemBrand").getValue(String.class);
                     lst_brands.add(brand);
-                    String description = child.child("description").getValue(String.class);
+                    String description = child.child("itemDescription").getValue(String.class);
                     lst_descriptions.add(description);
-                    int quantity = Integer.parseInt(Objects.requireNonNull(child.child("quantity").getValue(String.class)));
+                    Integer quantity = Objects.requireNonNull(child.child("itemQty").getValue(Long.class)).intValue();
                     lst_quantities.add(quantity);
-                    int price = Integer.parseInt(Objects.requireNonNull(child.child("price").getValue(String.class)));
+                    Integer price = Objects.requireNonNull(child.child("itemPrice").getValue(Long.class)).intValue();
                     lst_prices.add(price);
                 }
+                setRecyclerView(lst_names, lst_brands, lst_descriptions, lst_quantities, lst_prices);
             }
 
             @Override
@@ -78,12 +78,6 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
                 throw error.toException();
             }
         });
-
-        recyclerView = findViewById(R.id.viewItems);
-        OwnerListItemsAdapter adapter = new OwnerListItemsAdapter(this, lst_names, lst_brands, lst_descriptions, lst_quantities, lst_prices);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     @Override
@@ -93,5 +87,20 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
                 startActivity(new Intent(this, OwnerAddItemActivity.class));
                 break;
         }
+    }
+
+    public void setRecyclerView(ArrayList<String> lst_names, ArrayList<String> lst_brands,
+                                ArrayList<String> lst_descriptions, ArrayList<Integer> lst_quantities,
+                                ArrayList<Integer> lst_prices) {
+
+        String[] nameArray = lst_names.toArray(new String[0]);
+        String[] brandArray = lst_brands.toArray(new String[0]);
+        String[] descriptionArray = lst_descriptions.toArray(new String[0]);
+        Integer[] priceArray = lst_prices.toArray(new Integer[0]);
+        Integer[] quantityArray = lst_prices.toArray(new Integer[0]);
+        OwnerListItemsAdapter adapter = new OwnerListItemsAdapter(this, nameArray, brandArray,
+                descriptionArray, quantityArray, priceArray);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }
