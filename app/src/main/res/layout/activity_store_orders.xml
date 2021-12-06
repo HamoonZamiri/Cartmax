@@ -12,7 +12,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Orders"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
 

@@ -25,6 +25,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
+        getSupportActionBar().setTitle("Your Cart");
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {

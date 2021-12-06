@@ -120,18 +120,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String name = p.getString("name", "");
         Intent i;
         if(isCustomer) {
-            Toast.makeText(LoginActivity.this,
-                    "User is a customer",
-                    Toast.LENGTH_LONG).show();
             i = new Intent(LoginActivity.this, CustomerMainActivity.class);
             i.putExtra("email", email);
             i.putExtra("name", name);
             startActivity(i);
         }
         else {
-            Toast.makeText(LoginActivity.this,
-                    "User is an owner",
-                    Toast.LENGTH_LONG).show();
             i = new Intent(LoginActivity.this, OwnerMainActivity.class);
             i.putExtra("email", email);
             i.putExtra("name", name);

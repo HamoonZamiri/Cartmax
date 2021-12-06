@@ -35,6 +35,8 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_list_items);
+        getSupportActionBar().setTitle("Your Store");
+
         // Button to add to list
 
         Button newItem = (Button) findViewById(R.id.add_item);

@@ -30,6 +30,7 @@ public class StoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+        getSupportActionBar().setTitle("Checkout");
 
         Bundle extras = getIntent().getExtras();
         User user = new User();

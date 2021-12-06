@@ -22,9 +22,9 @@ public class OwnerAddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_add_item);
+        getSupportActionBar().setTitle("Add Item");
 
         addItemBtn = (Button) findViewById(R.id.commit_add_item);
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
