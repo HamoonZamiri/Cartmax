@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class OwnerMainActivity extends AppCompatActivity implements View.OnClickListener {
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,13 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.button_store_orders:
+<<<<<<< HEAD
                 startActivity(new Intent(this, StoreOrdersActivity.class));
+=======
+                Intent i = new Intent(this, StoreOrdersActivity.class);
+                i.putExtra("email",email);
+                startActivity(i);
+>>>>>>> Kenny_owner
                 break;
         }
     }
