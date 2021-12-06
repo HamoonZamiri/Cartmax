@@ -18,9 +18,16 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
 
         getSupportActionBar().setTitle("Owner");
 
-        TextView name = (TextView) findViewById(R.id.customerName);
-        Customer c = new Customer("lol@gmail.com", "kek", "LMAO"); //placeholder
-        name.setText("First Last");
+        email = "";
+        String name = "";
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            email = extras.getString("email");
+            name = extras.getString("name");
+        }
+
+        TextView nameText = (TextView) findViewById(R.id.customerName);
+        nameText.setText(name);
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(this);
