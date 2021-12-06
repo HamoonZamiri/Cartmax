@@ -23,6 +23,7 @@ public class OwnerAddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_add_item);
+        getSupportActionBar().setTitle("Add Item");
 
         user = new User();
         Bundle extras = getIntent().getExtras();
