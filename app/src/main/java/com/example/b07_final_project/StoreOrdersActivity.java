@@ -49,7 +49,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         db = new DatabaseHandler(this);
         db.openDatabase();
 
-
+        /*
         String id = "user3";
         Item item = new Item("macbook", "apple", 1000, "apple laptop");
         ArrayList<Item> arrListItem = new ArrayList<Item>();
@@ -61,7 +61,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         StoreOwner storeOwner = new StoreOwner("lol", "lol", "lol");
         storeOwner.setOrders(arrListOrder);
         storeOwner.setProducts(arrListItem);
-        fdb.child("Users").child("Owners").child("user3").child("store").setValue(storeOwner); //placeholder
+        fdb.child("Users").child("Owners").child("user3").child("store").setValue(storeOwner); //placeholder */
 
         tasksRecyclerView = findViewById(R.id.tasksRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
