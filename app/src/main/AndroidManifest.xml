@@ -30,15 +30,13 @@
             android:exported="false" />
         <activity
             android:name=".MyOrdersActivity"
-            android:exported="false"
-            android:parentActivityName=".CustomerMainActivity" />
+            android:exported="false"/>
         <activity
             android:name=".CustomerMainActivity"
             android:exported="false" />
         <activity
             android:name=".StoreListActivity"
-            android:exported="false"
-            android:parentActivityName=".CustomerMainActivity" />
+            android:exported="false"/>
         <activity
             android:name=".RegisterUser"
             android:exported="false"

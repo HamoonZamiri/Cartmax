@@ -175,14 +175,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         String brand = "";
         String description = "";
         String name = "";
-        int price = 0;
+        double price = 0;
         int quantity = 0;
 
         for(DataSnapshot data : order.child("items").getChildren()) {
             brand = data.child("brand").getValue(String.class);
             description = data.child("description").getValue(String.class);
             name = data.child("name").getValue(String.class);
-            price = data.child("price").getValue(int.class);
+            price = data.child("price").getValue(double.class);
             quantity = data.child("quantity").getValue(int.class);
 
             Item i = new Item(name,brand,price,description, quantity);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,7 +46,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         Button placeOrderButton = (Button) findViewById(R.id.placeOrderButton);
         placeOrderButton.setOnClickListener(this);
-    }
+
+        TextView emptyCartView = (TextView) findViewById(R.id.empty_view);
+        emptyCartView.setOnClickListener(this);
+     }
 
     @Override
     protected void onPause(){
@@ -67,16 +71,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 cartDataManager.placeOrder(adapter.getCart(), owner, cartDataManager.UID);
-                Intent intent = new Intent(this, MyOrdersActivity.class);
-                intent.putExtra("userName", user.getName());
-                intent.putExtra("userEmail", user.getEmail());
-                this.startActivity(intent);
+                Intent myOrdersIntent = new Intent(this, MyOrdersActivity.class);
+                myOrdersIntent.putExtra("userName", user.getName());
+                myOrdersIntent.putExtra("userEmail", user.getEmail());
+                this.startActivity(myOrdersIntent);
                 break;
+            case R.id.empty_view:
+                Intent newOrderIntent = new Intent(this, StoreListActivity.class);
+                newOrderIntent.putExtra("name", user.getName());
+                newOrderIntent.putExtra("email", user.getEmail());
+                this.startActivity(newOrderIntent);
         }
-    }
-
-    public CartDataManager getCartRecyclerViewManager(){
-        return cartDataManager;
     }
 
     public CartAdapter getAdapter() { return adapter;
