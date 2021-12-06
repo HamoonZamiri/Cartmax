@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 
 public class MyOrdersActivity extends AppCompatActivity {
     private RecyclerView ordersRV;
+    private OrdersListAdapter adapter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,12 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         TextView text = (TextView) findViewById(R.id.yourOrders);
         String email = "";
+        user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             email = extras.getString("email");
+            user.setName(extras.getString("userName"));
+            user.setEmail(extras.getString("userEmail"));
         }
 
         DatabaseReference customersRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
@@ -49,6 +55,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                             for(DataSnapshot order : ordersRef.getChildren()) {
                                 Order o = parseOrder(order);
                                 orders.add(o);
+                                adapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -90,8 +97,16 @@ public class MyOrdersActivity extends AppCompatActivity {
                 statuses.add("Processing");
             }
         }
-        OrdersListAdapter adapter = new OrdersListAdapter(this, names, statuses, items);
+        adapter = new OrdersListAdapter(this, names, statuses, items);
         ordersRV.setAdapter(adapter);
         ordersRV.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, CustomerMainActivity.class);
+        intent.putExtra("name",user.getName());
+        intent.putExtra("email",user.getEmail());
+        this.startActivity(intent);
     }
 }

@@ -5,9 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:paddingTop="8dp"
-    tools:context=".CartEntryFragment">
+    tools:context=".StoreItemFragment">
 
     <TextView
         android:id="@+id/productName"
@@ -23,16 +21,16 @@
         tools:text="@string/milk_4l" />
 
     <Button
-        android:id="@+id/removeFromCartButton"
+        android:id="@+id/addToCartButton"
         android:layout_width="117dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:text="@string/cart_delete_item"
+        android:text="@string/add_to_cart"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productName"
-        tools:text="@string/cart_delete_item" />
+        tools:text="@string/add_to_cart" />
 
     <TextView
         android:id="@+id/productTotal"
@@ -61,12 +59,17 @@
 
     <Button
         android:id="@+id/increaseProductCount"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
+        android:insetRight="0dp"
         android:text="@string/increase"
         android:textSize="34sp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="#FFFFFF" />
@@ -92,6 +95,5 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productName" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

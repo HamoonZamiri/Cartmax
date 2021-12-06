@@ -51,7 +51,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
 
         String id = "user3";
-        Item item = new Item("macbook", "apple", 1000, "apple laptop");
+        Item item = new Item("macbook", "apple", 1000, "apple laptop", 1);
         ArrayList<Item> arrListItem = new ArrayList<Item>();
         arrListItem.add(item);
         Order order = new Order("Apple store", arrListItem);

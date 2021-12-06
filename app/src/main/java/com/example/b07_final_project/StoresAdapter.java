@@ -1,6 +1,8 @@
 package com.example.b07_final_project;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresViewHolder> {
+public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresViewHolder>
+        implements View.OnClickListener{
 
     private Context context;
     private String[] data;
@@ -31,7 +34,9 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 
     @Override
     public void onBindViewHolder(@NonNull StoresViewHolder holder, int position) {
-        holder.text.setText(data[position]);
+        TextView storeTextView = (TextView) holder.storeTextView;
+        storeTextView.setText(data[position]);
+        storeTextView.setOnClickListener(this);
     }
 
     @Override
@@ -39,12 +44,28 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
         return data.length;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.storeName:
+                TextView storeName = (TextView)v;
+                Intent intent = new Intent(context, StoreActivity.class);
+                intent.putExtra("ownerName", storeName.getText().toString());
+                StoreListActivity activity = (StoreListActivity) context;
+                intent.putExtra("userEmail", activity.user.getEmail());
+                intent.putExtra("userName", activity.user.getName());
+                intent.putExtra("newOrder", true);
+                context.startActivity(intent);
+                break;
+        }
+    }
+
     public class StoresViewHolder extends RecyclerView.ViewHolder {
-        TextView text;
+        TextView storeTextView;
 
         public StoresViewHolder(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.storeName);
+            storeTextView = itemView.findViewById(R.id.storeName);
         }
     }
 

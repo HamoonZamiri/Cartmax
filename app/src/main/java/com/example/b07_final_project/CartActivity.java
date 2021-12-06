@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,20 +12,24 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.acl.Owner;
+
 public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
     private CartDataManager cartDataManager;
     private CartAdapter adapter;
     private User user; // activity needs to be given a user
+    private StoreOwner owner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shopping_cart);
+        setContentView(R.layout.activity_shopping_cart);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            user = new User(extras.getString("email"), "", "");
+            user = new User(extras.getString("userEmail"), "", extras.getString("userName"));
+            owner = new StoreOwner("", "", extras.getString("ownerName"));
         }
         cartDataManager = new CartDataManager(user, this);
 
@@ -42,23 +47,34 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        cartDataManager.updateDatabase(adapter.getCart());
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.placeOrderButton:
-                placeOrder();
+                cartDataManager.placeOrder(adapter.getCart(), owner, cartDataManager.UID);
+                Intent intent = new Intent(this, MyOrdersActivity.class);
+                intent.putExtra("userName", user.getName());
+                intent.putExtra("userEmail", user.getEmail());
+                this.startActivity(intent);
                 break;
         }
-    }
-
-    private void placeOrder(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     }
 
     public CartDataManager getCartRecyclerViewManager(){
         return cartDataManager;
     }
 
-    public void updateAdapter(){
-        adapter.notifyDataSetChanged();
+    public CartAdapter getAdapter() { return adapter;
     }
 }

@@ -20,12 +20,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class StoreListActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
+    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_list);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            user = new User(extras.getString("email"), "", extras.getString("name"));
+        }
 
         HashSet<StoreOwner> owners = new HashSet<StoreOwner>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
@@ -33,9 +39,9 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    StoreOwner owner = child.getValue(StoreOwner.class);
-                    owners.add(owner);
-                    Log.i("test", owner.toString());
+                    String name = child.child("name").getValue().toString();
+                    String email = child.child("email").getValue().toString();
+                    owners.add(new StoreOwner(email, "", name));
                 }
                 setRecyclerView(owners);
             }

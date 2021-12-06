@@ -46,8 +46,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
-
-        login.setOnKeyListener(new View.OnKeyListener() {
+        /*
+        editTextPassword = (EditText) findViewById(R.id.password);
+        editTextPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN)
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         });
-
+        */
         presenter = new LoginPresenter(new LoginModel(), this);
 
         SharedPreferences preferences = getSharedPreferences("user_info", 0);

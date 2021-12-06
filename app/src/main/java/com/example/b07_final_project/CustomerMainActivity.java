@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,20 +13,18 @@ import java.util.ArrayList;
 
 public class CustomerMainActivity extends AppCompatActivity implements View.OnClickListener {
     private String email;
-
+    private String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
-        email = "";
-        String name = "";
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             email = extras.getString("email");
             name = extras.getString("name");
+            Log.i("extrass", email + " " + name);
         }
-
         TextView nameText = (TextView) findViewById(R.id.customerName);
         nameText.setText(name);
 
@@ -47,7 +46,10 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.newOrder:
-                startActivity(new Intent(this, StoreListActivity.class));
+                Intent newOrderIntent = new Intent(this, StoreListActivity.class);
+                newOrderIntent.putExtra("email", email);
+                newOrderIntent.putExtra("name", name);
+                startActivity(newOrderIntent);
                 break;
             case R.id.logout:
                 startActivity(new Intent(this, LoginActivity.class));
@@ -59,7 +61,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.startCart:
                 Intent cartIntent = new Intent(this, CartActivity.class);
-                cartIntent.putExtra("email",email);
+                cartIntent.putExtra("userEmail",email);
                 startActivity(cartIntent);
         }
     }

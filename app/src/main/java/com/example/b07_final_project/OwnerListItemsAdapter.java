@@ -22,7 +22,8 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
     Context context;
 
     public OwnerListItemsAdapter(Context ct, List<String> names, List<String> brands,
-                                 List<String> descriptions, List<Integer> myQuantities, List<Integer> myPrices) {
+                                 List<String> descriptions, List<Integer> myQuantities,
+                                 List<Integer> myPrices) {
         lst_names = names;
         lst_brands = brands;
         lst_descriptions = descriptions;
