@@ -58,20 +58,6 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         db = new DatabaseHandler(this);
         db.openDatabase();
 
-        /*
-        String id = "user3";
-
-        ArrayList<Item> arrListItem = new ArrayList<Item>();
-        arrListItem.add(item);
-        Order order = new Order("Apple store", arrListItem);
-        DatabaseReference fdb = FirebaseDatabase.getInstance().getReference();
-        ArrayList<Order> arrListOrder = new ArrayList<Order>();
-        arrListOrder.add(order);
-        StoreOwner storeOwner = new StoreOwner("lol", "lol", "lol");
-        storeOwner.setOrders(arrListOrder);
-        storeOwner.setProducts(arrListItem);
-        fdb.child("Users").child("Owners").child("user3").child("store").setValue(storeOwner); //placeholder test*/
-
         tasksRecyclerView = findViewById(R.id.tasksRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksAdapter = new ToDoAdapter(db,StoreOrdersActivity.this);
@@ -150,17 +136,16 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         String description = "";
         String name = "";
         int price = 0;
+        int quantity = 0;
 
         for(DataSnapshot data : order.child("products").getChildren()) {
-            //Item i = data.getValue(Item.class);
-            //items.add(i);
-
             brand = data.child("itemBrand").getValue(String.class);
             description = data.child("itemDescription").getValue(String.class);
             name = data.child("itemName").getValue(String.class);
             price = data.child("itemPrice").getValue(int.class);
+            quantity = data.child("itemQty").getValue(int.class);
 
-            Item i = new Item(name,brand,price,description);
+            Item i = new Item(name,brand,price,description, quantity);
             items.add(i);
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);

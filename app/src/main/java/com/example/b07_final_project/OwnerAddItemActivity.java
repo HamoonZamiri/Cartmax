@@ -64,7 +64,7 @@ public class OwnerAddItemActivity extends AppCompatActivity {
                 return;
             }
 
-            Item newItem = new Item(nameString, brandString, priceInt, descriptionString);
+            Item newItem = new Item(nameString, brandString, priceInt, descriptionString, quantityInt);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("name").setValue(nameString);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemBrand").setValue(brandString);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemDescription").setValue(descriptionString);

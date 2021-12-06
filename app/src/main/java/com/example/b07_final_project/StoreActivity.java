@@ -40,7 +40,7 @@ public class StoreActivity extends AppCompatActivity {
 
         }
         cartManager = new UserCartManager(user, new ArrayList<Item>());
-        if (extras.getBoolean("newOrder")){
+        if (extras != null && extras.getBoolean("newOrder")){
             cartManager.newOrder(owner.getName());
         }
 

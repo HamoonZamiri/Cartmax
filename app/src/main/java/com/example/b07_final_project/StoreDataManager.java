@@ -41,7 +41,7 @@ public class StoreDataManager extends DataManager<Item> implements ValueEventLis
     }
 
     private void addStoreListener() {
-        ref = FirebaseDatabase.getInstance().getReference("Users/Owners/" + UID + "/products");
+        ref = FirebaseDatabase.getInstance().getReference("Users/Owners/" + UID + "/store/products");
         ref.addListenerForSingleValueEvent(this);
     }
 
