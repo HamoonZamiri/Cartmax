@@ -75,7 +75,6 @@ public class MyOrdersActivity extends AppCompatActivity {
         for(DataSnapshot data : order.child("items").getChildren()) {
             Item i = data.getValue(Item.class);
             items.add(i);
-            Log.i("order", i.toString());
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
         o.setComplete(order.child("complete").getValue(Boolean.class));

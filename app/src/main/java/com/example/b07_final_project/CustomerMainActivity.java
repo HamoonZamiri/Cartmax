@@ -24,7 +24,6 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         if(extras != null) {
             email = extras.getString("email");
             name = extras.getString("name");
-            Log.i("extras", email + " " + name);
         }
         TextView nameText = (TextView) findViewById(R.id.customerName);
         nameText.setText(name);

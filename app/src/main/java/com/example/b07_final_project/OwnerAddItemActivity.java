@@ -37,7 +37,6 @@ public class OwnerAddItemActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-
         DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(currentUser.getUid()).child("store").child("products");
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override

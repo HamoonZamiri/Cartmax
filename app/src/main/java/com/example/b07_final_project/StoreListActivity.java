@@ -42,7 +42,6 @@ public class StoreListActivity extends AppCompatActivity {
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
                     String name = child.child("name").getValue(String.class);
                     owners.add(name);
-                    Log.i("test", name);
                 }
                 setRecyclerView(owners);
             }

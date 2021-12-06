@@ -88,18 +88,14 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
 
     public void placeOrder(ArrayList<Item> cart, StoreOwner owner, String UID) {
 
-        Log.i("order", "owner name:" + owner.getName());
         Order order = createOrder(cart, owner);
 
-        int orderNumber;
-        Log.i("order", "placing order" + order);
         ref = FirebaseDatabase.getInstance().getReference("Users/Owners");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()){
                     if (child.child("name").getValue().toString().equals(owner.getName())){
-                        Log.i("order", "found owner store");
                         int orderNumber = (int) child.child("orders").getChildrenCount();
                         String OID = child.getKey().toString();
                         addOrder(orderNumber, order, OID, UID);
@@ -114,7 +110,6 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
     }
 
     private void addOrder(int orderNumber, Order order, String OID, String UID) {
-        Log.i("order", "submitting order");
         ref = FirebaseDatabase.getInstance().getReference("Users/Owners/"+OID);
         ref.child("/orders/order"+orderNumber).setValue(order);
         ref = FirebaseDatabase.getInstance().getReference("Users/Customers/"+UID);
@@ -126,7 +121,6 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
 
     private Order createOrder(ArrayList<Item> cart, StoreOwner owner) {
         Order order = new Order(owner.getName(), cart);
-        Log.i("order", order.toString());
         return order;
     }
 }

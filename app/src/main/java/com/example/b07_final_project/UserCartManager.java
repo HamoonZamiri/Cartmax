@@ -15,12 +15,11 @@ import java.util.ArrayList;
 
 public class UserCartManager extends DataManager<Item> {
     User user;
+    Boolean newOrder = false;
 
     public UserCartManager(User user, ArrayList<Item> cartItems){
         this.user = user;
         this.data = cartItems;
-
-        getUserCart();
     }
 
     @Override
@@ -31,8 +30,8 @@ public class UserCartManager extends DataManager<Item> {
                 newItems.remove(item);
             }
         }
-        ref = FirebaseDatabase.getInstance().getReference("Users/Customers/"+UID+"/cart");
         this.data.addAll(newItems);
+        ref = FirebaseDatabase.getInstance().getReference("Users/Customers/"+UID+"/cart");
         int itemIndex = 0;
         for (Item item : data){
             ref.child("item"+itemIndex).setValue(item);
@@ -57,12 +56,14 @@ public class UserCartManager extends DataManager<Item> {
                     String temp = child.child("email").getValue().toString();
                     if (temp.equals(user.getEmail())){
                         UID = child.getKey();
-                        Log.i("UID", UID);
-                        for (DataSnapshot item : child.child("cart").getChildren()){
-                            data.add(item.getValue(Item.class));
+                        if (!newOrder) {
+                            for (DataSnapshot item : child.child("cart").getChildren()) {
+                                data.add(item.getValue(Item.class));
+                            }
                         }
                     }
                 }
+                newOrder = false;
             }
 
             @Override
@@ -77,6 +78,7 @@ public class UserCartManager extends DataManager<Item> {
     }
 
     public void newOrder(String storeName) {
+        newOrder = true;
         ref = FirebaseDatabase.getInstance().getReference("Users/Customers");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -90,9 +92,7 @@ public class UserCartManager extends DataManager<Item> {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
@@ -101,5 +101,9 @@ public class UserCartManager extends DataManager<Item> {
         ref.child("cart").removeValue();
         ref.child("store").setValue(storeName);
         data.clear();
+    }
+
+    public ArrayList<Item> getCart(){
+        return data;
     }
 }

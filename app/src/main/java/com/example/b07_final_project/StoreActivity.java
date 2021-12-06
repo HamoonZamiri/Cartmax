@@ -38,12 +38,12 @@ public class StoreActivity extends AppCompatActivity {
             owner = new StoreOwner("", "", extras.getString("ownerName"));
             user.setEmail(extras.getString("userEmail"));
             user.setName(extras.getString("userName"));
-
         }
         cartManager = new UserCartManager(user, new ArrayList<Item>());
         if (extras != null && extras.getBoolean("newOrder")){
             cartManager.newOrder(owner.getName());
         }
+        cartManager.getCart();
 
         storeManager = new StoreDataManager(owner, this);
 
