@@ -143,11 +143,8 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         int quantity = 0;
 
         for(DataSnapshot data : order.child("products").getChildren()) {
-            brand = data.child("itemBrand").getValue(String.class);
-            description = data.child("itemDescription").getValue(String.class);
-            name = data.child("itemName").getValue(String.class);
-            price = data.child("itemPrice").getValue(int.class);
-            quantity = data.child("itemQty").getValue(int.class);
+        for(DataSnapshot data : order.child("items").getChildren()) {
+            brand = data.child("brand").getValue(String.class);
 
             Item i = new Item(name,brand,price,description, quantity);
             items.add(i);

@@ -154,7 +154,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     public Order parseOrder(DataSnapshot order) {
         ArrayList<Item> items = new ArrayList<Item>();
 
-        /*
         String brand = "";
         String description = "";
         String name = "";

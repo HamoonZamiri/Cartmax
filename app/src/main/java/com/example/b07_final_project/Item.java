@@ -65,6 +65,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return name + "[" + brand + "]: $" + price;
+        return name + "[" + brand + "] Number of items at($" + price + "): " + quantity;
     }
 }
