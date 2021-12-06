@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class OwnerMainActivity extends AppCompatActivity implements View.OnClickListener {
     String email;
 
@@ -28,6 +32,13 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
 
         TextView nameText = (TextView) findViewById(R.id.ownerName);
         nameText.setText(name);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
+        String uId = currentUser.getUid();
+
+        // Setting text to user full name
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(this);

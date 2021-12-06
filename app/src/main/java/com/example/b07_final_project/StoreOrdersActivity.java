@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.b07_final_project.Utils.DatabaseHandler;
 import com.example.b07_final_project.Model.ToDoModel;
 import com.example.b07_final_project.Adapters.ToDoAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -57,7 +60,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
         /*
         String id = "user3";
-        Item item = new Item("macbook", "apple", 1000, "apple laptop");
+
         ArrayList<Item> arrListItem = new ArrayList<Item>();
         arrListItem.add(item);
         Order order = new Order("Apple store", arrListItem);
@@ -80,56 +83,50 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
         fab = findViewById(R.id.fab);
 
+
         taskList = db.getAllTasks();
+        //Initalize the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
+        String uId = currentUser.getUid();
 
         //Read the database
         DatabaseReference customersRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
         ArrayList<Order> orders = new ArrayList<Order>();
 
-        email = "";
-        String name = "";
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            email = extras.getString("email");
-            name = extras.getString("name");
-        }
 
-
-        //email = "hoomji@mail.com"; //placeholder test
-
-        String finalEmail = email; //add existing orders if any
-        customersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(currentUser.getUid()).child("orders");
+        itemsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                } else {
-                    for(DataSnapshot customer : task.getResult().getChildren()) {
-                        if(customer.child("email").getValue(String.class).equals(finalEmail)) {
-                            DataSnapshot ordersRef = customer.child("orders");
-                            for(DataSnapshot order : ordersRef.getChildren()) {
-                                Order o = parseOrder(order);
-                                orders.add(o);
-                            }
-                        }
-                    }
+                for (DataSnapshot child: task.getResult().getChildren()) {
+                        Order o = parseOrder(child);
+                        orders.add(o);
+                        System.out.println("Oncomplete");
                 }
+
+                int counter = 0;
+                for (Order order : orders){
+                    counter += 1;
+                    ToDoModel todomodel = new ToDoModel();
+                    todomodel.setId(counter);
+                    todomodel.setTask(order.toString());
+                    todomodel.setOrder(order);
+                    if(order.isComplete())
+                        todomodel.setStatus(1);
+                    else
+                        todomodel.setStatus(0);
+                    taskList.add(todomodel);
+                    System.out.println("order : orders");
+                }
+
+                System.out.println("Finished");
+                Collections.reverse(taskList);
+
+                tasksAdapter.setTasks(taskList);
             }
         });
-
-        int counter = 0;
-        for (Order order : orders){
-            counter += 1;
-            ToDoModel todomodel = new ToDoModel();
-            todomodel.setId(counter);
-            todomodel.setTask(order.toString());
-            todomodel.setStatus(0);
-            taskList.add(todomodel);
-            System.out.println("Test");
-        }
-        System.out.println("Orders");
-        Collections.reverse(taskList);
-        tasksAdapter.setTasks(taskList);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +146,26 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
     public Order parseOrder(DataSnapshot order) {
         ArrayList<Item> items = new ArrayList<Item>();
-        for(DataSnapshot data : order.child("items").getChildren()) {
-            Item i = data.getValue(Item.class);
+
+        String brand = "";
+        String description = "";
+        String name = "";
+        int price = 0;
+
+        for(DataSnapshot data : order.child("products").getChildren()) {
+            //Item i = data.getValue(Item.class);
+            //items.add(i);
+
+            brand = data.child("itemBrand").getValue(String.class);
+            description = data.child("itemDescription").getValue(String.class);
+            name = data.child("itemName").getValue(String.class);
+            price = data.child("itemPrice").getValue(int.class);
+
+            Item i = new Item(name,brand,price,description);
             items.add(i);
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
-        o.setComplete(order.child("complete").getValue(Boolean.class));
+        o.setComplete(Objects.requireNonNull(order.child("complete").getValue(Boolean.class)));
         return o;
     }
 

@@ -12,14 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07_final_project.AddNewTask;
+import com.example.b07_final_project.Item;
+import com.example.b07_final_project.Order;
 import com.example.b07_final_project.StoreOrdersActivity;
 import com.example.b07_final_project.Model.ToDoModel;
 import com.example.b07_final_project.R;
 import com.example.b07_final_project.Utils.DatabaseHandler;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
@@ -64,7 +74,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return todoList.size();
+        if(todoList!= null)
+            return todoList.size();
+        else
+            return 0;
     }
 
     public Context getContext() {
