@@ -52,7 +52,6 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_orders);
-        //Objects.requireNonNull(getSupportActionBar()).hide();
         getSupportActionBar().setTitle("Store Orders");
 
         db = new DatabaseHandler(this);
@@ -91,7 +90,6 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
                 for (DataSnapshot child: task.getResult().getChildren()) {
                         Order o = parseOrder(child);
                         orders.add(o);
-                        System.out.println("Oncomplete");
                 }
 
                 int counter = 0;
@@ -107,10 +105,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
                         todomodel.setStatus(0);
                     taskList.add(todomodel);
                         //db.insertTask(todomodel);
-                    System.out.println("order : orders");
                 }
-
-                System.out.println("Finished");
                 Collections.reverse(taskList);
 
                 tasksAdapter.setTasks(taskList);
@@ -135,21 +130,8 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
 
     public Order parseOrder(DataSnapshot order) {
         ArrayList<Item> items = new ArrayList<Item>();
-
-        String brand = "";
-        String description = "";
-        String name = "";
-        int price = 0;
-        int quantity = 0;
-
         for(DataSnapshot data : order.child("items").getChildren()) {
-            brand = data.child("brand").getValue(String.class);
-            description = data.child("description").getValue(String.class);
-            name = data.child("name").getValue(String.class);
-            price = data.child("price").getValue(int.class);
-            quantity = data.child("quantity").getValue(int.class);
-
-            Item i = new Item(name,brand,price,description, quantity);
+            Item i = data.getValue(Item.class);
             items.add(i);
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
