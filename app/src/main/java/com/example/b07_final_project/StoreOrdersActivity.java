@@ -77,14 +77,16 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
         tasksAdapter = new ToDoAdapter(db,StoreOrdersActivity.this);
         tasksRecyclerView.setAdapter(tasksAdapter);
 
+
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new RecyclerItemTouchHelper(tasksAdapter));
         itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
 
         fab = findViewById(R.id.fab);
 
-
         taskList = db.getAllTasks();
+
+
         //Initalize the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -118,6 +120,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements DialogClos
                     else
                         todomodel.setStatus(0);
                     taskList.add(todomodel);
+                        //db.insertTask(todomodel);
                     System.out.println("order : orders");
                 }
 
