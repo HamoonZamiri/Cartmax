@@ -62,6 +62,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.placeOrderButton:
+                if (cartDataManager.data.size() == 0){
+                    break;
+                }
                 cartDataManager.placeOrder(adapter.getCart(), owner, cartDataManager.UID);
                 Intent intent = new Intent(this, MyOrdersActivity.class);
                 intent.putExtra("userName", user.getName());

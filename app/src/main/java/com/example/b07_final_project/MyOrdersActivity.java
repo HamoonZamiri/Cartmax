@@ -31,18 +31,16 @@ public class MyOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_orders);
 
         TextView text = (TextView) findViewById(R.id.yourOrders);
-        String email = "";
         user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            email = extras.getString("email");
             user.setName(extras.getString("userName"));
             user.setEmail(extras.getString("userEmail"));
         }
 
         DatabaseReference customersRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
         ArrayList<Order> orders = new ArrayList<Order>();
-        String finalEmail = email;
+        String finalEmail = user.getEmail();
         customersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -55,7 +53,6 @@ public class MyOrdersActivity extends AppCompatActivity {
                             for(DataSnapshot order : ordersRef.getChildren()) {
                                 Order o = parseOrder(order);
                                 orders.add(o);
-                                adapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -77,6 +74,7 @@ public class MyOrdersActivity extends AppCompatActivity {
         for(DataSnapshot data : order.child("items").getChildren()) {
             Item i = data.getValue(Item.class);
             items.add(i);
+            Log.i("order", i.toString());
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
         o.setComplete(order.child("complete").getValue(Boolean.class));

@@ -56,7 +56,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.myOrders:
                 Intent i = new Intent(this, MyOrdersActivity.class);
-                i.putExtra("email",email);
+                i.putExtra("userEmail",email);
+                i.putExtra("userName",name);
                 startActivity(i);
                 break;
             case R.id.startCart:
