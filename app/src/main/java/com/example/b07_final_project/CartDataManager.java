@@ -62,7 +62,7 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
             orderTotal += item.getPrice() * (double) item.getQuantity();
         }
         orderTotal = Math.round(orderTotal * 100.0) / 100.0;
-        orderTotalTextView.setText(String.format("%.2f", orderTotal));
+        orderTotalTextView.setText(String.format("$%.2f", orderTotal));
     }
 
     private void addCartListener(){
