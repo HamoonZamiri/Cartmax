@@ -154,22 +154,29 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     public Order parseOrder(DataSnapshot order) {
         ArrayList<Item> items = new ArrayList<Item>();
 
+        /*
         String brand = "";
         String description = "";
         String name = "";
         int price = 0;
+        int quantity = 0;
+
+         */
 
         for(DataSnapshot data : order.child("products").getChildren()) {
-            //Item i = data.getValue(Item.class);
-            //items.add(i);
+            Item i = data.getValue(Item.class);
+            items.add(i);
 
+            /*
             brand = data.child("itemBrand").getValue(String.class);
             description = data.child("itemDescription").getValue(String.class);
             name = data.child("itemName").getValue(String.class);
             price = data.child("itemPrice").getValue(int.class);
-
-            Item i = new Item(name,brand,price,description);
+            quantity = data.child("itemQty").getValue(int.class);
+            Item i = new Item(name,brand,price,description, quantity);
             items.add(i);
+             */
+
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
         o.setComplete(Objects.requireNonNull(order.child("complete").getValue(Boolean.class)));
