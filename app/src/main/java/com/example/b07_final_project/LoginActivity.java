@@ -28,7 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Contract.View {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
+        View.OnKeyListener, Contract.View {
 
     private Button register;
     private EditText editTextEmail, editTextPassword;
@@ -49,13 +50,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
 
         editTextPassword = (EditText) findViewById(R.id.password);
-        editTextPassword.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    switch (keyCode)
-                    {
+        editTextPassword.setOnKeyListener(this);
+
+        presenter = new LoginPresenter(new LoginModel(), this);
+
+        SharedPreferences preferences = getSharedPreferences("user_info", 0);
+        preferences.edit().clear().apply();
+    }
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        switch(v.getId()) {
+            case R.id.password:
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             presenter.login();
@@ -64,15 +71,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             break;
                     }
                 }
-                return false;
-            }
-
-        });
-
-        presenter = new LoginPresenter(new LoginModel(), this);
-
-        SharedPreferences preferences = getSharedPreferences("user_info", 0);
-        preferences.edit().clear().apply();
+                break;
+        }
+        return false;
     }
 
     @Override

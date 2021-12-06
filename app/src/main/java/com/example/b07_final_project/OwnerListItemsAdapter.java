@@ -18,11 +18,11 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
     String[] lst_brands;
     String[] lst_descriptions;
     Integer[] lst_quantities;
-    Integer[] lst_prices;
+    Double[] lst_prices;
     Context context;
 
     public OwnerListItemsAdapter(Context ct, String[] names, String[] brands,
-                                 String[] descriptions, Integer[] myQuantities, Integer[] myPrices) {
+                                 String[] descriptions, Integer[] myQuantities, Double[] myPrices) {
         lst_names = names;
         lst_brands = brands;
         lst_descriptions = descriptions;

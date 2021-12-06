@@ -46,7 +46,7 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         ArrayList<String> lst_brands = new ArrayList<String>();
         ArrayList<String> lst_descriptions = new ArrayList<String>();
         ArrayList<Integer> lst_quantities = new ArrayList<Integer>();
-        ArrayList<Integer> lst_prices = new ArrayList<Integer>();
+        ArrayList<Double> lst_prices = new ArrayList<Double>();
 
         // Read from the database
 
@@ -79,13 +79,17 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
                 for (DataSnapshot child: task.getResult().getChildren()) {
                     String name = Objects.requireNonNull(child.child("name").getValue(String.class));
                     lst_names.add(name);
-                    String brand = Objects.requireNonNull(child.child("itemBrand").getValue(String.class));
+                    //String brand = Objects.requireNonNull(child.child("itemBrand").getValue(String.class));
+                    String brand = Objects.requireNonNull(child.child("brand").getValue(String.class));
                     lst_brands.add(brand);
-                    String description = Objects.requireNonNull(child.child("itemDescription").getValue(String.class));
+                    //String description = Objects.requireNonNull(child.child("itemDescription").getValue(String.class));
+                    String description = Objects.requireNonNull(child.child("description").getValue(String.class));
                     lst_descriptions.add(description);
-                    Integer quantity = Objects.requireNonNull(child.child("itemQty").getValue(Integer.class));
+                    //Integer quantity = Objects.requireNonNull(child.child("itemQty").getValue(Integer.class));
+                    Integer quantity = Objects.requireNonNull(child.child("quantity").getValue(Integer.class));
                     lst_quantities.add(quantity);
-                    Integer price = Objects.requireNonNull(child.child("itemPrice").getValue(Integer.class));
+                    //Integer price = Objects.requireNonNull(child.child("itemPrice").getValue(Integer.class));
+                    Double price = Objects.requireNonNull(child.child("price").getValue(Double.class));
                     lst_prices.add(price);
                 }
                 setRecyclerView(lst_names, lst_brands, lst_descriptions, lst_quantities, lst_prices);
@@ -104,12 +108,12 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
 
     public void setRecyclerView(ArrayList<String> lst_names, ArrayList<String> lst_brands,
                                 ArrayList<String> lst_descriptions, ArrayList<Integer> lst_quantities,
-                                ArrayList<Integer> lst_prices) {
+                                ArrayList<Double> lst_prices) {
 
         String[] nameArray = lst_names.toArray(new String[0]);
         String[] brandArray = lst_brands.toArray(new String[0]);
         String[] descriptionArray = lst_descriptions.toArray(new String[0]);
-        Integer[] priceArray = lst_prices.toArray(new Integer[0]);
+        Double[] priceArray = lst_prices.toArray(new Double[0]);
         Integer[] quantityArray = lst_quantities.toArray(new Integer[0]);
         recyclerView = findViewById(R.id.viewItems);
         OwnerListItemsAdapter adapter = new OwnerListItemsAdapter(this, nameArray, brandArray,

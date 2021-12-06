@@ -18,7 +18,6 @@ public class OwnerAddItemActivity extends AppCompatActivity {
 
     private Button addItemBtn;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +34,10 @@ public class OwnerAddItemActivity extends AppCompatActivity {
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 switch (v.getId()) {
                     case R.id.commit_add_item:
                         addItem(itemsRef);
                 }
-
             }
         });
     }
@@ -57,19 +53,23 @@ public class OwnerAddItemActivity extends AppCompatActivity {
             String brandString = itemBrand.getText().toString();
             String descriptionString = itemDescription.getText().toString();
             Integer quantityInt = Integer.parseInt(itemQty.getText().toString());
-            Integer priceInt = Integer.parseInt(itemPrice.getText().toString());
+            Double priceDouble = Double.parseDouble(itemPrice.getText().toString());
 
             if (nameString.equals("") || brandString.equals("") || descriptionString.equals("")) {
                 Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            Item newItem = new Item(nameString, brandString, priceInt, descriptionString, quantityInt);
+            Item newItem = new Item(nameString, brandString, priceDouble, descriptionString, quantityInt);
+            itemsRef.child(String.valueOf(newItem.hashCode())).setValue(newItem);
+            /*
             itemsRef.child(String.valueOf(newItem.hashCode())).child("name").setValue(nameString);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemBrand").setValue(brandString);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemDescription").setValue(descriptionString);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemPrice").setValue(priceInt);
             itemsRef.child(String.valueOf(newItem.hashCode())).child("itemQty").setValue(quantityInt);
+
+             */
 
             startActivity(new Intent(this, OwnerListItemsActivity.class));
         } catch (NumberFormatException e) {
