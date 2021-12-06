@@ -17,6 +17,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
+        getSupportActionBar().setTitle("Orders");
 
         email = "";
         String name = "";

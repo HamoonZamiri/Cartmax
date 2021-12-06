@@ -68,7 +68,6 @@ public class LoginModel implements Contract.Model {
                                         editor.putString("name", name).apply();
                                         editor.putBoolean("isCustomer", true).apply();
                                         presenter.determiner(true, true);
-                                        //view.success(true);
                                         return;
                                     }
                                 }
@@ -77,7 +76,6 @@ public class LoginModel implements Contract.Model {
                     });
                 } else {
                     presenter.determiner(false,true);
-                    //view.failure();
                 }
             }
         });
@@ -100,13 +98,14 @@ public class LoginModel implements Contract.Model {
                             } else {
                                 for (DataSnapshot owner : task.getResult().getChildren()) {
                                     if (owner.child("email").getValue(String.class).equals(email)) {
-                                        StoreOwner o = task.getResult().getValue(StoreOwner.class);
-                                        editor.putString("email", o.getEmail()).apply();
-                                        editor.putString("name", o.getName()).apply();
-                                        editor.putBoolean("isCustomer", false).apply();
+                                        String email = owner.child("email").getValue(String.class);
+                                        String name = owner.child("name").getValue(String.class);
+                                        editor.putString("email", email).apply();
+                                        editor.putString("name", name).apply();
+                                        editor.putBoolean("isCustomer", true).apply();
                                         presenter.determiner(true, false);
-                                        //view.success(false);
                                         return;
+
                                     }
                                 }
                             }
@@ -114,7 +113,6 @@ public class LoginModel implements Contract.Model {
                     });
                 } else {
                     presenter.determiner(false, false);
-                    //view.failure();
                 }
             }
         });

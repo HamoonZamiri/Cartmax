@@ -8,13 +8,13 @@
         android:id="@+id/tasksText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="32sp"
-        android:text="Orders" />
+        android:layout_marginBottom="16dp"
+        android:text="Orders"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tasksRecyclerView"

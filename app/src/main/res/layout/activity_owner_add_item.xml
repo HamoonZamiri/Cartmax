@@ -10,8 +10,10 @@
         android:id="@+id/newItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         android:text="@string/owner_add_description"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
 
@@ -19,8 +21,10 @@
         android:id="@+id/newItemBrand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/owner_add_brand_name"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBrand" />
 
@@ -42,6 +46,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/owner_add_item"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,8 +57,10 @@
         android:id="@+id/newItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/owner_add_item_name"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
@@ -63,6 +72,8 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/brand"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/border"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
@@ -75,6 +86,8 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/description"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/border"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBrand" />
@@ -87,19 +100,23 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="@string/name"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/border"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_item_title" />
 
     <EditText
         android:id="@+id/editItemQuantity"
-        android:layout_width="261dp"
-        android:layout_height="47dp"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/quantity"
         android:inputType="number"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
 
@@ -107,20 +124,24 @@
         android:id="@+id/owner_add_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/owner_add_quantity"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editItemQuantity" />
 
     <EditText
         android:id="@+id/editItemPrice"
         android:layout_width="260dp"
-        android:layout_height="52dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/price"
         android:inputType="textPersonName"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editItemQuantity" />
 
@@ -128,8 +149,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/owner_add_price"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editItemPrice" />
 </androidx.constraintlayout.widget.ConstraintLayout>

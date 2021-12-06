@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Contract.View {
 
-    private TextView register;
+    private Button register;
     private EditText editTextEmail, editTextPassword;
     private Button login;
 
@@ -40,8 +40,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setTitle("B07 Final Project");
 
-        register = (TextView) findViewById(R.id.register);
+        register = (Button) findViewById(R.id.register);
         register.setOnClickListener(this);
 
         login = (Button) findViewById(R.id.login);

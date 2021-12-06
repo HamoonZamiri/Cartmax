@@ -26,16 +26,17 @@ public class StoreListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_list);
+        getSupportActionBar().setTitle("Stores");
 
-        HashSet<StoreOwner> owners = new HashSet<StoreOwner>();
+        HashSet<String> owners = new HashSet<String>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child("Owners");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    StoreOwner owner = child.getValue(StoreOwner.class);
-                    owners.add(owner);
-                    Log.i("test", owner.toString());
+                    String name = child.child("name").getValue(String.class);
+                    owners.add(name);
+                    Log.i("test", name);
                 }
                 setRecyclerView(owners);
             }
@@ -46,12 +47,9 @@ public class StoreListActivity extends AppCompatActivity {
         });
     }
 
-    public void setRecyclerView(HashSet<StoreOwner> owners) {
-        StoreOwner[] ownersArr = new StoreOwner[owners.size()];
-        owners.toArray(ownersArr);
-        String[] names = new String[ownersArr.length];
-        for(int i = 0; i < ownersArr.length; i++)
-            names[i] = ownersArr[i].getName();
+    public void setRecyclerView(HashSet<String> owners) {
+        String[] names = new String[owners.size()];
+        owners.toArray(names);
         recyclerView = findViewById(R.id.rv);
         StoresAdapter adapter = new StoresAdapter(this, names);
         recyclerView.setAdapter(adapter);

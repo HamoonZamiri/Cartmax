@@ -26,7 +26,7 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
             name = extras.getString("name");
         }
 
-        TextView nameText = (TextView) findViewById(R.id.customerName);
+        TextView nameText = (TextView) findViewById(R.id.ownerName);
         nameText.setText(name);
 
         Button logout = (Button) findViewById(R.id.logout);
