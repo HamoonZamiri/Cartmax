@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OwnerMainActivity extends AppCompatActivity implements View.OnClickListener {
-    String email;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +23,15 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
 
         getSupportActionBar().setTitle("Owner");
 
-        email = "";
-        String name = "";
+        user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            email = extras.getString("email");
-            name = extras.getString("name");
+            user.setEmail(extras.getString("email"));
+            user.setName(extras.getString("name"));
         }
 
         TextView nameText = (TextView) findViewById(R.id.ownerName);
-        nameText.setText(name);
+        nameText.setText(user.getName());
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,12 +59,15 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.myStore:
-                startActivity(new Intent(this, OwnerListItemsActivity.class));
+                Intent intent = new Intent(this, OwnerListItemsActivity.class);
+                intent.putExtra("name", user.getName());
+                intent.putExtra("email", user.getEmail());
+                startActivity(intent);
                 break;
 
             case R.id.button_store_orders:
                 Intent i = new Intent(this, StoreOrdersActivity.class);
-                i.putExtra("email",email);
+                i.putExtra("email", user.getEmail());
                 startActivity(i);
                 break;
         }

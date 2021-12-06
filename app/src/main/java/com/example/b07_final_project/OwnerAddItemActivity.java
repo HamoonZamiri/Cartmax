@@ -17,14 +17,21 @@ import com.google.firebase.database.FirebaseDatabase;
 public class OwnerAddItemActivity extends AppCompatActivity {
 
     private Button addItemBtn;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_add_item);
 
-        addItemBtn = (Button) findViewById(R.id.commit_add_item);
+        user = new User();
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            user.setEmail(extras.getString("email"));
+            user.setName(extras.getString("name"));
+        }
 
+        addItemBtn = (Button) findViewById(R.id.commit_add_item);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -62,16 +69,11 @@ public class OwnerAddItemActivity extends AppCompatActivity {
 
             Item newItem = new Item(nameString, brandString, priceDouble, descriptionString, quantityInt);
             itemsRef.child(String.valueOf(newItem.hashCode())).setValue(newItem);
-            /*
-            itemsRef.child(String.valueOf(newItem.hashCode())).child("name").setValue(nameString);
-            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemBrand").setValue(brandString);
-            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemDescription").setValue(descriptionString);
-            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemPrice").setValue(priceInt);
-            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemQty").setValue(quantityInt);
 
-             */
-
-            startActivity(new Intent(this, OwnerListItemsActivity.class));
+            Intent intent = new Intent(this, OwnerListItemsActivity.class);
+            intent.putExtra("name", user.getName());
+            intent.putExtra("email", user.getEmail());
+            startActivity(intent);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
             return;

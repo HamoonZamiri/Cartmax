@@ -30,12 +30,20 @@ import java.util.Objects;
 public class OwnerListItemsActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_list_items);
         // Button to add to list
+
+        user = new User();
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            user.setEmail(extras.getString("email"));
+            user.setName(extras.getString("name"));
+        }
 
         Button newItem = (Button) findViewById(R.id.add_item);
         newItem.setOnClickListener(this);
@@ -101,7 +109,10 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.add_item:
-                startActivity(new Intent(this, OwnerAddItemActivity.class));
+                Intent intent = new Intent(this, OwnerAddItemActivity.class);
+                intent.putExtra("name", user.getName());
+                intent.putExtra("email", user.getEmail());
+                startActivity(intent);
                 break;
         }
     }
@@ -120,5 +131,13 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
                 descriptionArray, quantityArray, priceArray);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, OwnerMainActivity.class);
+        intent.putExtra("name", user.getName());
+        intent.putExtra("email", user.getEmail());
+        this.startActivity(intent);
     }
 }
