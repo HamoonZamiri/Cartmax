@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class OwnerMainActivity extends AppCompatActivity implements View.OnClickListener {
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +18,16 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
 
         getSupportActionBar().setTitle("Owner");
 
-        TextView name = (TextView) findViewById(R.id.customerName);
-        Customer c = new Customer("lol@gmail.com", "kek", "LMAO"); //placeholder
-        name.setText("First Last");
+        email = "";
+        String name = "";
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            email = extras.getString("email");
+            name = extras.getString("name");
+        }
+
+        TextView nameText = (TextView) findViewById(R.id.customerName);
+        nameText.setText(name);
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(this);
@@ -43,7 +51,10 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, OwnerListItemsActivity.class));
 
             case R.id.button_store_orders:
-                startActivity(new Intent(this, StoreOrdersActivity.class));
+                Intent i = new Intent(this, StoreOrdersActivity.class);
+                i.putExtra("email",email);
+                startActivity(i);
+                break;
         }
     }
 
