@@ -59,8 +59,9 @@ public class OwnerAddItemActivity extends AppCompatActivity {
             Integer quantityInt = Integer.parseInt(itemQty.getText().toString());
             Integer priceInt = Integer.parseInt(itemPrice.getText().toString());
 
-            if (nameString == "" || brandString == "" || descriptionString == "") {
+            if (nameString.equals("") || brandString.equals("") || descriptionString.equals("")) {
                 Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
+                return;
             }
 
             Item newItem = new Item(nameString, brandString, priceInt, descriptionString);
@@ -72,7 +73,8 @@ public class OwnerAddItemActivity extends AppCompatActivity {
 
             startActivity(new Intent(this, OwnerListItemsActivity.class));
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
+            return;
         }
     }
 }

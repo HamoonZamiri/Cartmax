@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +35,6 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_list_items);
-
         // Button to add to list
 
         Button newItem = (Button) findViewById(R.id.add_item);
@@ -72,29 +72,23 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         });
 
         DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(uId).child("store").child("products");
-        itemsRef.addValueEventListener(new ValueEventListener() {
+        itemsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
 
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    String name = child.child("name").getValue(String.class);
+                for (DataSnapshot child: task.getResult().getChildren()) {
+                    String name = Objects.requireNonNull(child.child("name").getValue(String.class));
                     lst_names.add(name);
-                    String brand = child.child("itemBrand").getValue(String.class);
+                    String brand = Objects.requireNonNull(child.child("itemBrand").getValue(String.class));
                     lst_brands.add(brand);
-                    String description = child.child("itemDescription").getValue(String.class);
+                    String description = Objects.requireNonNull(child.child("itemDescription").getValue(String.class));
                     lst_descriptions.add(description);
-                    Integer quantity = Objects.requireNonNull(child.child("itemQty").getValue(Long.class)).intValue();
+                    Integer quantity = Objects.requireNonNull(child.child("itemQty").getValue(Integer.class));
                     lst_quantities.add(quantity);
-                    Integer price = Objects.requireNonNull(child.child("itemPrice").getValue(Long.class)).intValue();
+                    Integer price = Objects.requireNonNull(child.child("itemPrice").getValue(Integer.class));
                     lst_prices.add(price);
                 }
                 setRecyclerView(lst_names, lst_brands, lst_descriptions, lst_quantities, lst_prices);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                throw error.toException();
             }
         });
     }
@@ -117,7 +111,7 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         String[] descriptionArray = lst_descriptions.toArray(new String[0]);
         Integer[] priceArray = lst_prices.toArray(new Integer[0]);
         Integer[] quantityArray = lst_quantities.toArray(new Integer[0]);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.viewItems);
+        recyclerView = findViewById(R.id.viewItems);
         OwnerListItemsAdapter adapter = new OwnerListItemsAdapter(this, nameArray, brandArray,
                 descriptionArray, quantityArray, priceArray);
         recyclerView.setAdapter(adapter);
