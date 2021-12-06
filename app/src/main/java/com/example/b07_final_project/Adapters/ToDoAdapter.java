@@ -112,6 +112,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         //Read the database
         DatabaseReference customersRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
 
+        //Change order complete to true
         DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(currentUser.getUid()).child("orders");
         itemsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -123,7 +124,24 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
                     System.out.println("Oncomplete");
                 }
+            }
+        });
 
+        //Change order complete to true
+        itemsRef = database.getReference("Users").child("Customers");
+        itemsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                for (DataSnapshot child: task.getResult().getChildren()) {
+                    for (DataSnapshot child2 : child.child("orders").getChildren()) {
+                        Order o = parseOrder(child2);
+                        o.setComplete(true);
+                        if (o.toString().equals(item.getTask()))
+                            child2.child("complete").getRef().setValue(true);
+
+                        System.out.println("Oncomplete");
+                    }
+                }
                 todoList.remove(position);
                 notifyItemRemoved(position);
             }
@@ -160,22 +178,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         int price = 0;
         int quantity = 0;
 
-         */
+        for(DataSnapshot data : order.child("items").getChildren()) {
+            brand = data.child("brand").getValue(String.class);
+            description = data.child("description").getValue(String.class);
+            name = data.child("name").getValue(String.class);
+            price = data.child("price").getValue(int.class);
+            quantity = data.child("quantity").getValue(int.class);
 
-        for(DataSnapshot data : order.child("products").getChildren()) {
-            Item i = data.getValue(Item.class);
-            items.add(i);
-
-            /*
-            brand = data.child("itemBrand").getValue(String.class);
-            description = data.child("itemDescription").getValue(String.class);
-            name = data.child("itemName").getValue(String.class);
-            price = data.child("itemPrice").getValue(int.class);
-            quantity = data.child("itemQty").getValue(int.class);
             Item i = new Item(name,brand,price,description, quantity);
             items.add(i);
-             */
-
         }
         Order o = new Order(order.child("storeName").getValue(String.class), items);
         o.setComplete(Objects.requireNonNull(order.child("complete").getValue(Boolean.class)));
