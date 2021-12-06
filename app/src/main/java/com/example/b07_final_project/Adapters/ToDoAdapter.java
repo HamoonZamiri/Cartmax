@@ -42,6 +42,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         this.activity = activity;
     }
 
+    public List<ToDoModel> gettodoList(){
+        return this.todoList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,11 +65,17 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     db.updateStatus(item.getId(), 1);
+                    setCompleteFirebase(item, true);
                 } else {
                     db.updateStatus(item.getId(), 0);
+                    setCompleteFirebase(item, false);
                 }
             }
         });
+    }
+
+    public void setCompleteFirebase(ToDoModel item, boolean status){
+
     }
 
     private boolean toBoolean(int n) {
@@ -92,8 +102,34 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     public void deleteItem(int position) {
         ToDoModel item = todoList.get(position);
         db.deleteTask(item.getId());
-        todoList.remove(position);
-        notifyItemRemoved(position);
+
+        //Initalize the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
+        String uId = currentUser.getUid();
+
+        //Read the database
+        DatabaseReference customersRef = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
+
+        DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(currentUser.getUid()).child("orders");
+        itemsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                for (DataSnapshot child: task.getResult().getChildren()) {
+                    Order o = parseOrder(child);
+                    if(o.toString().equals(item.getTask()))
+                        child.child("complete").getRef().setValue(true);
+
+                    System.out.println("Oncomplete");
+                }
+
+                todoList.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
+
+
     }
 
     public void editItem(int position) {
@@ -114,4 +150,30 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             task = view.findViewById(R.id.todoCheckBox);
         }
     }
+
+    public Order parseOrder(DataSnapshot order) {
+        ArrayList<Item> items = new ArrayList<Item>();
+
+        String brand = "";
+        String description = "";
+        String name = "";
+        int price = 0;
+
+        for(DataSnapshot data : order.child("products").getChildren()) {
+            //Item i = data.getValue(Item.class);
+            //items.add(i);
+
+            brand = data.child("itemBrand").getValue(String.class);
+            description = data.child("itemDescription").getValue(String.class);
+            name = data.child("itemName").getValue(String.class);
+            price = data.child("itemPrice").getValue(int.class);
+
+            Item i = new Item(name,brand,price,description);
+            items.add(i);
+        }
+        Order o = new Order(order.child("storeName").getValue(String.class), items);
+        o.setComplete(Objects.requireNonNull(order.child("complete").getValue(Boolean.class)));
+        return o;
+    }
+
 }
