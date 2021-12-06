@@ -6,10 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+
+import com.example.b07_final_project.Item;
 import com.example.b07_final_project.Model.ToDoModel;
+import com.example.b07_final_project.Order;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -94,4 +107,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteTask(int id){
         db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
     }
+
+
 }

@@ -14,23 +14,21 @@ import java.util.Objects;
 
 public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAdapter.MyViewHolder> {
 
-    List<String> lst_names;
-    List<String> lst_brands;
-    List<String> lst_descriptions;
-    List<Integer> lst_quantities;
-    List<Integer> lst_prices;
+    String[] lst_names;
+    String[] lst_brands;
+    String[] lst_descriptions;
+    Integer[] lst_quantities;
+    Integer[] lst_prices;
     Context context;
 
-    public OwnerListItemsAdapter(Context ct, List<String> names, List<String> brands,
-                                 List<String> descriptions, List<Integer> myQuantities,
-                                 List<Integer> myPrices) {
+    public OwnerListItemsAdapter(Context ct, String[] names, String[] brands,
+                                 String[] descriptions, Integer[] myQuantities, Integer[] myPrices) {
         lst_names = names;
         lst_brands = brands;
         lst_descriptions = descriptions;
         lst_quantities = myQuantities;
         lst_prices = myPrices;
         context = ct;
-
     }
 
 
@@ -46,16 +44,16 @@ public class OwnerListItemsAdapter extends RecyclerView.Adapter<OwnerListItemsAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.itemName.setText(lst_names.get(position));
-        holder.itemBrand.setText(lst_brands.get(position));
-        holder.itemDescription.setText(lst_descriptions.get(position));
-        holder.itemQuantity.setText(lst_quantities.get(position));
-        holder.itemPrice.setText(lst_quantities.get(position));
+        holder.itemName.setText(lst_names[position]);
+        holder.itemBrand.setText(lst_brands[position]);
+        holder.itemDescription.setText(lst_descriptions[position]);
+        holder.itemQuantity.setText("Qty: " + String.valueOf(lst_quantities[position]));
+        holder.itemPrice.setText("Price: " + String.valueOf(lst_prices[position]));
     }
 
     @Override
     public int getItemCount() {
-        return lst_names.size();
+        return lst_names.length;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

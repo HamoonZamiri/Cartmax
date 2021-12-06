@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,8 +31,7 @@ public class OwnerAddItemActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(String.valueOf(currentUser)).child("store").child("products");
-
+        DatabaseReference itemsRef = database.getReference("Users").child("Owners").child(currentUser.getUid()).child("store").child("products");
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,25 +53,28 @@ public class OwnerAddItemActivity extends AppCompatActivity {
             final EditText itemQty = (EditText) findViewById(R.id.editItemQuantity);
             final EditText itemPrice = (EditText) findViewById(R.id.editItemPrice);
 
-//            String nameString = itemName.getText().toString();
-//            String brandString = itemBrand.getText().toString();
-//            String descriptionString = itemDescription.getText().toString();
-//            int quantityInt = Integer.parseInt(itemQty.getText().toString());
-//            int priceInt = Integer.parseInt(itemPrice.getText().toString());
-//
-//            Item newItem = new Item(nameString, brandString, priceInt, descriptionString);
-//
-//
-//
-//            itemsRef.child(String.valueOf(newItem.hashCode())).child("name").setValue(nameString);
-//            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemBrand").setValue(brandString);
-//            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemDescription").setValue(descriptionString);
-//            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemPrice").setValue(priceInt);
-//            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemQty").setValue(quantityInt);
+            String nameString = itemName.getText().toString();
+            String brandString = itemBrand.getText().toString();
+            String descriptionString = itemDescription.getText().toString();
+            Integer quantityInt = Integer.parseInt(itemQty.getText().toString());
+            Integer priceInt = Integer.parseInt(itemPrice.getText().toString());
+
+            if (nameString.equals("") || brandString.equals("") || descriptionString.equals("")) {
+                Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Item newItem = new Item(nameString, brandString, priceInt, descriptionString);
+            itemsRef.child(String.valueOf(newItem.hashCode())).child("name").setValue(nameString);
+            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemBrand").setValue(brandString);
+            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemDescription").setValue(descriptionString);
+            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemPrice").setValue(priceInt);
+            itemsRef.child(String.valueOf(newItem.hashCode())).child("itemQty").setValue(quantityInt);
 
             startActivity(new Intent(this, OwnerListItemsActivity.class));
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();
+            return;
         }
     }
 }

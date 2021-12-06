@@ -19,9 +19,6 @@
             android:name=".OwnerAddItemActivity"
             android:exported="false" />
         <activity
-            android:name=".OwnerListItemsAdapter"
-            android:exported="false" />
-        <activity
             android:name=".OwnerListItemsActivity"
             android:exported="false" />
         <activity
@@ -47,7 +44,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

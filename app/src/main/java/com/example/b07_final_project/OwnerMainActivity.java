@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class OwnerMainActivity extends AppCompatActivity implements View.OnClickListener {
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +22,23 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
 
         getSupportActionBar().setTitle("Owner");
 
-        TextView name = (TextView) findViewById(R.id.customerName);
-        Customer c = new Customer("lol@gmail.com", "kek", "LMAO"); //placeholder
-        name.setText("First Last");
+        email = "";
+        String name = "";
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            email = extras.getString("email");
+            name = extras.getString("name");
+        }
+
+        TextView nameText = (TextView) findViewById(R.id.ownerName);
+        nameText.setText(name);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
+        String uId = currentUser.getUid();
+
+        // Setting text to user full name
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(this);
@@ -41,9 +60,13 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.myStore:
                 startActivity(new Intent(this, OwnerListItemsActivity.class));
+                break;
 
             case R.id.button_store_orders:
-                startActivity(new Intent(this, StoreOrdersActivity.class));
+                Intent i = new Intent(this, StoreOrdersActivity.class);
+                i.putExtra("email",email);
+                startActivity(i);
+                break;
         }
     }
 
