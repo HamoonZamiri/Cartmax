@@ -68,7 +68,7 @@
         android:text="@string/increase"
         android:textSize="34sp"
         app:cornerRadius="5dp"
-        app:icon="@drawable/ic_baseline_add_24"
+        app:icon="@android:drawable/arrow_up_float"
         app:iconPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -83,6 +83,7 @@
         android:text="@string/decrease"
         android:textAlignment="center"
         android:textSize="34sp"
+        app:icon="@android:drawable/arrow_down_float"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productCount" />
 
