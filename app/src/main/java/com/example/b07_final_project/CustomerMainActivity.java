@@ -22,8 +22,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            email = extras.getString("email");
-            name = extras.getString("name");
+            email = extras.getString("userEmail");
+            name = extras.getString("userName");
         }
         TextView nameText = (TextView) findViewById(R.id.customerName);
         nameText.setText(name);
@@ -47,8 +47,8 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()){
             case R.id.newOrder:
                 Intent newOrderIntent = new Intent(this, StoreListActivity.class);
-                newOrderIntent.putExtra("email", email);
-                newOrderIntent.putExtra("name", name);
+                newOrderIntent.putExtra("userEmail", email);
+                newOrderIntent.putExtra("userName", name);
                 startActivity(newOrderIntent);
                 break;
             case R.id.logout:
@@ -63,6 +63,7 @@ public class CustomerMainActivity extends AppCompatActivity implements View.OnCl
             case R.id.startCart:
                 Intent cartIntent = new Intent(this, CartActivity.class);
                 cartIntent.putExtra("userEmail",email);
+                cartIntent.putExtra("userName", name);
                 startActivity(cartIntent);
         }
     }

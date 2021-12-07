@@ -121,14 +121,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent i;
         if(isCustomer) {
             i = new Intent(LoginActivity.this, CustomerMainActivity.class);
-            i.putExtra("email", email);
-            i.putExtra("name", name);
+            i.putExtra("userEmail", email);
+            i.putExtra("userName", name);
             startActivity(i);
         }
         else {
             i = new Intent(LoginActivity.this, OwnerMainActivity.class);
-            i.putExtra("email", email);
-            i.putExtra("name", name);
+            i.putExtra("ownerEmail", email);
+            i.putExtra("ownerName", name);
             startActivity(i);
 
         }

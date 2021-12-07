@@ -83,8 +83,8 @@ public class StoreActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         Intent intent = new Intent(this, CustomerMainActivity.class);
-        intent.putExtra("email", cartManager.getUser().getEmail());
-        intent.putExtra("name", cartManager.getUser().getName());
+        intent.putExtra("userEmail", cartManager.getUser().getEmail());
+        intent.putExtra("userName", cartManager.getUser().getName());
         startActivity(intent);
     }
 

@@ -26,8 +26,8 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
         user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            user.setEmail(extras.getString("email"));
-            user.setName(extras.getString("name"));
+            user.setEmail(extras.getString("ownerEmail"));
+            user.setName(extras.getString("ownerName"));
         }
 
         TextView nameText = (TextView) findViewById(R.id.ownerName);
@@ -60,14 +60,15 @@ public class OwnerMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.myStore:
                 Intent intent = new Intent(this, OwnerListItemsActivity.class);
-                intent.putExtra("name", user.getName());
-                intent.putExtra("email", user.getEmail());
+                intent.putExtra("ownerName", user.getName());
+                intent.putExtra("ownerEmail", user.getEmail());
                 startActivity(intent);
                 break;
 
             case R.id.button_store_orders:
                 Intent i = new Intent(this, StoreOrdersActivity.class);
-                i.putExtra("email", user.getEmail());
+                i.putExtra("ownerEmail", user.getEmail());
+                i.putExtra("ownerName", user.getName());
                 startActivity(i);
                 break;
         }

@@ -43,8 +43,8 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            user.setEmail(extras.getString("email"));
-            user.setName(extras.getString("name"));
+            user.setEmail(extras.getString("ownerEmail"));
+            user.setName(extras.getString("ownerName"));
         }
 
         Button newItem = (Button) findViewById(R.id.add_item);
@@ -112,8 +112,8 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
         switch(v.getId()) {
             case R.id.add_item:
                 Intent intent = new Intent(this, OwnerAddItemActivity.class);
-                intent.putExtra("name", user.getName());
-                intent.putExtra("email", user.getEmail());
+                intent.putExtra("ownerName", user.getName());
+                intent.putExtra("ownerEmail", user.getEmail());
                 startActivity(intent);
                 break;
         }
@@ -138,8 +138,8 @@ public class OwnerListItemsActivity extends AppCompatActivity implements View.On
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, OwnerMainActivity.class);
-        intent.putExtra("name", user.getName());
-        intent.putExtra("email", user.getEmail());
+        intent.putExtra("ownerName", user.getName());
+        intent.putExtra("ownerEmail", user.getEmail());
         this.startActivity(intent);
     }
 }

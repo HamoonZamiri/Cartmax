@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -31,7 +32,7 @@ public class StoreListActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            user = new User(extras.getString("email"), "", extras.getString("name"));
+            user = new User(extras.getString("userEmail"), "", extras.getString("userName"));
         }
 
         HashSet<String> owners = new HashSet<String>();
@@ -59,5 +60,13 @@ public class StoreListActivity extends AppCompatActivity {
         StoresAdapter adapter = new StoresAdapter(this, names);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, CustomerMainActivity.class);
+        intent.putExtra("userName", user.getName());
+        intent.putExtra("userEmail", user.getEmail());
+        this.startActivity(intent);
     }
 }

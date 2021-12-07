@@ -28,8 +28,8 @@ public class OwnerAddItemActivity extends AppCompatActivity {
         user = new User();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            user.setEmail(extras.getString("email"));
-            user.setName(extras.getString("name"));
+            user.setEmail(extras.getString("ownerEmail"));
+            user.setName(extras.getString("ownerName"));
         }
 
         addItemBtn = (Button) findViewById(R.id.commit_add_item);
@@ -71,8 +71,8 @@ public class OwnerAddItemActivity extends AppCompatActivity {
             itemsRef.child(String.valueOf(newItem.hashCode())).setValue(newItem);
 
             Intent intent = new Intent(this, OwnerListItemsActivity.class);
-            intent.putExtra("name", user.getName());
-            intent.putExtra("email", user.getEmail());
+            intent.putExtra("ownerName", user.getName());
+            intent.putExtra("ownerEmail", user.getEmail());
             startActivity(intent);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Field can not be left empty", Toast.LENGTH_LONG).show();

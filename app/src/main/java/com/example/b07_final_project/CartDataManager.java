@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -19,7 +18,7 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
 
     public CartDataManager(User user, Activity activity){
         this.activity = activity;
-        this.data = new ArrayList<Item>();
+        this.data = new ArrayList<>();
 
         // single use event listener to find which user's cart to access
         this.ref = FirebaseDatabase.getInstance().getReference("Users").child("Customers");
@@ -29,7 +28,7 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
                 for (DataSnapshot child : snapshot.getChildren()){
                     String temp = child.child("email").getValue().toString();
                     if (temp.equals(user.getEmail())){
-                        UID = child.getKey().toString();
+                        UID = child.getKey();
                         addCartListener();
                     }
                 }
@@ -50,14 +49,16 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         data.clear();
 
+        // get all the cart items
         for (DataSnapshot child : snapshot.getChildren()){
             data.add(child.getValue(Item.class));
         }
         CartActivity activity = (CartActivity) this.activity;
         activity.getAdapter().notifyDataSetChanged();
 
+        // recalculate order total
         TextView orderTotalTextView = activity.findViewById(R.id.orderTotalValue);
-        Double orderTotal = 0.0;
+        double orderTotal = 0.0;
         for (Item item : data) {
             orderTotal += item.getPrice() * (double) item.getQuantity();
         }
@@ -97,7 +98,7 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
                 for (DataSnapshot child : snapshot.getChildren()){
                     if (child.child("name").getValue().toString().equals(owner.getName())){
                         int orderNumber = (int) child.child("orders").getChildrenCount();
-                        String OID = child.getKey().toString();
+                        String OID = child.getKey();
                         addOrder(orderNumber, order, OID, UID);
                     }
                 }
@@ -120,7 +121,6 @@ public class CartDataManager extends DataManager<Item> implements ValueEventList
     }
 
     private Order createOrder(ArrayList<Item> cart, StoreOwner owner) {
-        Order order = new Order(owner.getName(), cart);
-        return order;
+        return new Order(owner.getName(), cart);
     }
 }

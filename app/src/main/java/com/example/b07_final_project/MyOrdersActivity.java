@@ -103,8 +103,8 @@ public class MyOrdersActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, CustomerMainActivity.class);
-        intent.putExtra("name",user.getName());
-        intent.putExtra("email",user.getEmail());
+        intent.putExtra("userName",user.getName());
+        intent.putExtra("userEmail",user.getEmail());
         this.startActivity(intent);
     }
 }

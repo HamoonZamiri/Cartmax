@@ -10,11 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.security.acl.Owner;
-
 public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
     private CartDataManager cartDataManager;
@@ -35,7 +30,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         }
         cartDataManager = new CartDataManager(user, this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.cartRecyclerView);
         adapter = new CartAdapter(cartDataManager.getData(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -44,10 +39,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart(){
         super.onStart();
-        Button placeOrderButton = (Button) findViewById(R.id.placeOrderButton);
+        Button placeOrderButton = findViewById(R.id.placeOrderButton);
         placeOrderButton.setOnClickListener(this);
 
-        TextView emptyCartView = (TextView) findViewById(R.id.empty_view);
+        TextView emptyCartView = findViewById(R.id.empty_view);
         emptyCartView.setOnClickListener(this);
      }
 
@@ -78,8 +73,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.empty_view:
                 Intent newOrderIntent = new Intent(this, StoreListActivity.class);
-                newOrderIntent.putExtra("name", user.getName());
-                newOrderIntent.putExtra("email", user.getEmail());
+                newOrderIntent.putExtra("userName", user.getName());
+                newOrderIntent.putExtra("userEmail", user.getEmail());
                 this.startActivity(newOrderIntent);
         }
     }
