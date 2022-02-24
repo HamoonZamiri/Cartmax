@@ -11,20 +11,16 @@
         android:theme="@style/Theme.B07_final_project" >
         <activity
             android:name=".StoreActivity"
-            android:exported="false"
-            android:parentActivityName=".StoreListActivity" />
+            android:exported="false" />
         <activity
             android:name=".StoreOrdersActivity"
-            android:exported="false"
-            android:parentActivityName=".OwnerMainActivity" />
+            android:exported="false" />
         <activity
             android:name=".OwnerAddItemActivity"
-            android:exported="false"
-            android:parentActivityName=".OwnerListItemsActivity" />
+            android:exported="false" />
         <activity
             android:name=".OwnerListItemsActivity"
-            android:exported="false"
-            android:parentActivityName=".OwnerMainActivity" />
+            android:exported="false"/>
         <activity
             android:name=".OwnerMainActivity"
             android:exported="false" />
@@ -43,8 +39,7 @@
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".CartActivity"
-            android:exported="false"
-            android:parentActivityName=".CustomerMainActivity" />
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
